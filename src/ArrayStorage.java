@@ -6,26 +6,30 @@ import java.util.Arrays;
 
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    int count = 0;
+    private static int count = 0;
+    private static int size = 0;
 
     void clear() {
         for (int i = 0; i < size(); i++) {
             storage[i] = null;
         }
+        size = 0;
     }
 
     void save(Resume r) {
-        storage[count] = r;
-        count++;
+        if (count >= 0 && count < 9999) {
+            storage[count] = r;
+            count++;
+            size++;
+        } else {
+            System.out.println("В хранилище закончилось место.");
+        }
     }
 
     Resume get(String uuid) {
         for (int i = 0; i < size(); i++) {
             if (storage[i].uuid.equalsIgnoreCase(uuid)) {
                 return storage[i];
-            } else {
-                System.out.println("Нет такого uuid");
-                break;
             }
         }
         return null;
@@ -34,15 +38,12 @@ public class ArrayStorage {
     void delete(String uuid) {
         for (int i = 0; i < size(); i++) {
             if (storage[i].uuid == uuid) {
-                shiftAfterDelete(storage, i, size());
+                for (i = i; i < size(); i++) {
+                    storage[i] = storage[i + 1];
+                }
             }
         }
-    }
-
-    void shiftAfterDelete(Resume[] r, int from, int to) {
-        for (int i = from; i < to; i++) {
-            storage[i] = storage[i + 1];
-        }
+        size--;
     }
 
     /**
@@ -53,14 +54,6 @@ public class ArrayStorage {
     }
 
     int size() {
-        int size = 0;
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] != null) {
-                size++;
-            } else {
-                break;
-            }
-        }
         return size;
     }
 }
