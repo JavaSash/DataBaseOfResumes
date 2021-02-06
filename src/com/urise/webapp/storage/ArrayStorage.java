@@ -3,7 +3,6 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  * Array based storage for Resumes
@@ -19,23 +18,12 @@ public class ArrayStorage {
         System.out.println("Вы очистили хранилище резюме");
     }
 
-    public void save(Resume r) {
+    public void save(Resume resume) {
         if (enoughSpace()) { //есть место в хранилище?
-            if (!presenceResume(r)) { //если такого резюме ещё нет
-                storage[size] = r;
+            if (!presenceResume(resume.getUuid())) { //если такого резюме ещё нет
+                storage[size] = resume;
                 size++;
-                System.out.println("Вы успешно записали резюме с " + r.getUuid());
-            } else {
-                System.out.println("Резюме с " + r.getUuid() + " есть в хранилище. Перезаписать? [y/n]");
-                Scanner scan = new Scanner(System.in);
-                String answer = scan.nextLine();
-                while (!answer.equalsIgnoreCase("y") && !answer.equalsIgnoreCase("n")) {
-                    System.out.println("Введите [y/n]");
-                    answer = scan.nextLine();
-                }
-                if (answer.equalsIgnoreCase("y")) {
-                    update(r);
-                }
+                System.out.println("Вы успешно записали резюме с " + resume.getUuid());
             }
         }
     }
@@ -49,39 +37,18 @@ public class ArrayStorage {
         }
     }
 
-    public void update(Resume r) {
-        if (presenceResume(r)) { //если резюме есть в хранилище
+    public void update(Resume resume) {
+        if (presenceResume(resume.getUuid())) { //если резюме есть в хранилище
             for (int i = 0; i < size; i++) {
-                if (storage[i].getUuid().equalsIgnoreCase(r.getUuid())) {
-                    storage[i] = r;
-                    System.out.println("Вы успешно обновили резюме с " + r.getUuid());
+                if (storage[i].getUuid().equalsIgnoreCase(resume.getUuid())) {
+                    storage[i] = resume;
+                    System.out.println("Вы успешно обновили резюме с " + resume.getUuid());
                 }
-            }
-        } else {
-            System.out.println("Резюме с " + r.getUuid() + " нет в хранилище. Записать? [y/n]");
-            Scanner scan = new Scanner(System.in);
-            String answer = scan.nextLine();
-            while (!answer.equalsIgnoreCase("y") && !answer.equalsIgnoreCase("n")) {
-                System.out.println("Введите [y/n]");
-                answer = scan.nextLine();
-            }
-            scan.close();
-            if (answer.equalsIgnoreCase("y")) {
-                save(r);
             }
         }
     }
 
     //Наличие резюме в хранилище
-    private boolean presenceResume(Resume r) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equalsIgnoreCase(r.getUuid())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private boolean presenceResume(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equalsIgnoreCase(uuid)) {
@@ -99,8 +66,7 @@ public class ArrayStorage {
                 }
             }
         } else {
-            System.out.println("Нет такого резюме");
-
+            System.out.println("Нет резюме с " + uuid);
         }
         return null;
     }
@@ -108,17 +74,17 @@ public class ArrayStorage {
     public void delete(String uuid) {
         if (presenceResume(uuid)) {
             for (int i = 0; i < size - 1; i++) {
-                if (storage[i].getUuid() == uuid) {
+                if (storage[i].getUuid().equalsIgnoreCase(uuid)) {
                     while (i < size) {
                         storage[i] = storage[i + 1];
                         i++;
                     }
                     size--;
-                    System.out.println("Вы успешно удалили резюме");
+                    System.out.println("Вы успешно удалили резюме с " + uuid);
                 }
             }
         } else {
-            System.out.println("Нет такого резюме");
+            System.out.println("Нет резюме с " + uuid);
         }
     }
 
