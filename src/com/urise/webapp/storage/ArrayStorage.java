@@ -20,7 +20,7 @@ public class ArrayStorage {
 
     public void save(Resume resume) {
         if (enoughSpace()) { //есть место в хранилище?
-            if (!presenceResume(resume.getUuid())) { //если такого резюме ещё нет
+            if (get(resume.getUuid()) == null) { //если такого резюме ещё нет
                 storage[size] = resume;
                 size++;
                 System.out.println("Вы успешно записали резюме с " + resume.getUuid());
@@ -38,54 +38,36 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        if (presenceResume(resume.getUuid())) { //если резюме есть в хранилище
-            for (int i = 0; i < size; i++) {
-                if (storage[i].getUuid().equalsIgnoreCase(resume.getUuid())) {
-                    storage[i] = resume;
-                    System.out.println("Вы успешно обновили резюме с " + resume.getUuid());
-                }
-            }
-        }
+        storage[indexOfResume(resume.getUuid())] = resume;
+        System.out.println("Вы успешно обновили резюме с " + resume.getUuid());
     }
 
-    //Наличие резюме в хранилище
-    private boolean presenceResume(String uuid) {
+    private int indexOfResume(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equalsIgnoreCase(uuid)) {
-                return true;
+                return i;
             }
         }
-        return false;
+        return -1;
     }
 
     public Resume get(String uuid) {
-        if (presenceResume(uuid)) {
-            for (int i = 0; i < size; i++) {
-                if (storage[i].getUuid().equalsIgnoreCase(uuid)) {
-                    return storage[i];
-                }
-            }
+        if (indexOfResume(uuid) >= 0) {
+            return storage[indexOfResume(uuid)];
         } else {
-            System.out.println("Нет резюме с " + uuid);
+            System.out.println("В хранилище нет резюме с " + uuid);
+            return null;
         }
-        return null;
     }
 
     public void delete(String uuid) {
-        if (presenceResume(uuid)) {
-            for (int i = 0; i < size - 1; i++) {
-                if (storage[i].getUuid().equalsIgnoreCase(uuid)) {
-                    while (i < size) {
-                        storage[i] = storage[i + 1];
-                        i++;
-                    }
-                    size--;
-                    System.out.println("Вы успешно удалили резюме с " + uuid);
-                }
-            }
-        } else {
-            System.out.println("Нет резюме с " + uuid);
+        int i = indexOfResume(uuid);
+        while (i < size) {
+            storage[i] = storage[i + 1];
+            i++;
         }
+        size--;
+        System.out.println("Вы успешно удалили резюме с " + uuid);
     }
 
     /**
