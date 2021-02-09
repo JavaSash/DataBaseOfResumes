@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private Resume[] storage = new Resume[10_000];
     private int size = 0;
 
     public void clear() {
@@ -20,10 +20,12 @@ public class ArrayStorage {
 
     public void save(Resume resume) {
         if (enoughSpace()) { //есть место в хранилище?
-            if (get(resume.getUuid()) == null) { //если такого резюме ещё нет
+            if (indexOfResume(resume.getUuid()) == -1) {//если такого резюме ещё нет
                 storage[size] = resume;
                 size++;
                 System.out.println("Вы успешно записали резюме с " + resume.getUuid());
+            } else {
+                System.out.println("Резюме с " + resume.getUuid() + " уже есть.");
             }
         }
     }
@@ -38,8 +40,12 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        storage[indexOfResume(resume.getUuid())] = resume;
-        System.out.println("Вы успешно обновили резюме с " + resume.getUuid());
+        if (indexOfResume(resume.getUuid()) >= 0) {
+            storage[indexOfResume(resume.getUuid())] = resume;
+            System.out.println("Вы успешно обновили резюме с " + resume.getUuid());
+        } else {
+            System.out.println("Нет резюме с " + resume.getUuid());
+        }
     }
 
     private int indexOfResume(String uuid) {
@@ -54,20 +60,23 @@ public class ArrayStorage {
     public Resume get(String uuid) {
         if (indexOfResume(uuid) >= 0) {
             return storage[indexOfResume(uuid)];
-        } else {
-            System.out.println("В хранилище нет резюме с " + uuid);
-            return null;
         }
+        System.out.println("В хранилище нет резюме с " + uuid);
+        return null;
     }
 
     public void delete(String uuid) {
-        int i = indexOfResume(uuid);
-        while (i < size) {
-            storage[i] = storage[i + 1];
-            i++;
+        if (indexOfResume(uuid) >= 0) {
+            int index = indexOfResume(uuid);
+            while (index < size) {
+                storage[index] = storage[index + 1];
+                index++;
+            }
+            size--;
+            System.out.println("Вы успешно удалили резюме с " + uuid);
+        } else {
+            System.out.println("В хранилище нет резюме с " + uuid);
         }
-        size--;
-        System.out.println("Вы успешно удалили резюме с " + uuid);
     }
 
     /**
