@@ -20,7 +20,7 @@ public class ArrayStorage {
 
     public void save(Resume resume) {
         if (enoughSpace()) { //есть место в хранилище?
-            if (indexOfResume(resume.getUuid()) == -1) {//если такого резюме ещё нет
+            if (getIndexOfResume(resume.getUuid()) == -1) {//если такого резюме ещё нет
                 storage[size] = resume;
                 size++;
                 System.out.println("Вы успешно записали резюме с " + resume.getUuid());
@@ -40,15 +40,16 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        if (indexOfResume(resume.getUuid()) >= 0) {
-            storage[indexOfResume(resume.getUuid())] = resume;
+        int resumeIndex = getIndexOfResume(resume.getUuid());
+        if (resumeIndex >= 0) {
+            storage[resumeIndex] = resume;
             System.out.println("Вы успешно обновили резюме с " + resume.getUuid());
         } else {
             System.out.println("Нет резюме с " + resume.getUuid());
         }
     }
 
-    private int indexOfResume(String uuid) {
+    private int getIndexOfResume(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equalsIgnoreCase(uuid)) {
                 return i;
@@ -58,20 +59,18 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        if (indexOfResume(uuid) >= 0) {
-            return storage[indexOfResume(uuid)];
+        int resumeIndex = getIndexOfResume(uuid);
+        if (resumeIndex >= 0) {
+            return storage[resumeIndex];
         }
         System.out.println("В хранилище нет резюме с " + uuid);
         return null;
     }
 
     public void delete(String uuid) {
-        if (indexOfResume(uuid) >= 0) {
-            int index = indexOfResume(uuid);
-            while (index < size) {
-                storage[index] = storage[index + 1];
-                index++;
-            }
+        int resumeIndex = getIndexOfResume(uuid);
+        if (resumeIndex >= 0) {
+            System.arraycopy(storage, resumeIndex + 1, storage, resumeIndex, size - (resumeIndex + 1));
             size--;
             System.out.println("Вы успешно удалили резюме с " + uuid);
         } else {
