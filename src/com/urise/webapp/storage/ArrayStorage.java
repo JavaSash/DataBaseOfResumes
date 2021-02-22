@@ -8,10 +8,7 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 
-public class ArrayStorage implements Storage {
-    private static final int STORAGE_LIMIT = 10_000;
-    private Resume[] storage = new Resume[STORAGE_LIMIT];
-    private int size = 0;
+public class ArrayStorage extends AbstractArrayStorage {
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -21,7 +18,7 @@ public class ArrayStorage implements Storage {
 
     public void save(Resume resume) {
         if (enoughSpace()) { //есть место в хранилище?
-            if (getIndexOfResume(resume.getUuid()) == -1) {//если такого резюме ещё нет
+            if (getIndex(resume.getUuid()) == -1) {//если такого резюме ещё нет
                 storage[size] = resume;
                 size++;
                 System.out.println("Вы успешно записали резюме с " + resume.getUuid());
@@ -41,7 +38,7 @@ public class ArrayStorage implements Storage {
     }
 
     public void update(Resume resume) {
-        int resumeIndex = getIndexOfResume(resume.getUuid());
+        int resumeIndex = getIndex(resume.getUuid());
         if (resumeIndex >= 0) {
             storage[resumeIndex] = resume;
             System.out.println("Вы успешно обновили резюме с " + resume.getUuid());
@@ -50,7 +47,7 @@ public class ArrayStorage implements Storage {
         }
     }
 
-    private int getIndexOfResume(String uuid) {
+    protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equalsIgnoreCase(uuid)) {
                 return i;
@@ -59,17 +56,8 @@ public class ArrayStorage implements Storage {
         return -1;
     }
 
-    public Resume get(String uuid) {
-        int resumeIndex = getIndexOfResume(uuid);
-        if (resumeIndex >= 0) {
-            return storage[resumeIndex];
-        }
-        System.out.println("В хранилище нет резюме с " + uuid);
-        return null;
-    }
-
     public void delete(String uuid) {
-        int resumeIndex = getIndexOfResume(uuid);
+        int resumeIndex = getIndex(uuid);
         if (resumeIndex >= 0) {
             System.arraycopy(storage, resumeIndex + 1, storage, resumeIndex, size - (resumeIndex + 1));
             size--;
@@ -84,9 +72,5 @@ public class ArrayStorage implements Storage {
      */
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
-    }
-
-    public int size() {
-        return size;
     }
 }
