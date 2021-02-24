@@ -2,48 +2,20 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.Arrays;
-
 /**
  * Array based storage for Resumes
  */
 
 public class ArrayStorage extends AbstractArrayStorage {
 
-    public void clear() {
-        Arrays.fill(storage, 0, size, null);
-        size = 0;
-        System.out.println("Вы очистили хранилище резюме");
-    }
-
-    public void save(Resume resume) {
-        if (enoughSpace()) { //есть место в хранилище?
-            if (getIndex(resume.getUuid()) == -1) {//если такого резюме ещё нет
-                storage[size] = resume;
-                size++;
-                System.out.println("Вы успешно записали резюме с " + resume.getUuid());
-            } else {
-                System.out.println("Резюме с " + resume.getUuid() + " уже есть.");
-            }
-        }
-    }
-
-    private boolean enoughSpace() {
-        if (size < STORAGE_LIMIT) {
-            return true;
+    @Override
+    void recordToIndex(Resume resume) {
+        if (getIndex(resume.getUuid()) == -1) {//если такого резюме ещё нет
+            storage[size] = resume;
+            size++;
+            System.out.println("Вы успешно записали резюме с " + resume.getUuid());
         } else {
-            System.out.println("В хранилище закончилось место.");
-            return false;
-        }
-    }
-
-    public void update(Resume resume) {
-        int resumeIndex = getIndex(resume.getUuid());
-        if (resumeIndex >= 0) {
-            storage[resumeIndex] = resume;
-            System.out.println("Вы успешно обновили резюме с " + resume.getUuid());
-        } else {
-            System.out.println("Нет резюме с " + resume.getUuid());
+            System.out.println("Резюме с " + resume.getUuid() + " уже есть.");
         }
     }
 
@@ -54,23 +26,5 @@ public class ArrayStorage extends AbstractArrayStorage {
             }
         }
         return -1;
-    }
-
-    public void delete(String uuid) {
-        int resumeIndex = getIndex(uuid);
-        if (resumeIndex >= 0) {
-            System.arraycopy(storage, resumeIndex + 1, storage, resumeIndex, size - (resumeIndex + 1));
-            size--;
-            System.out.println("Вы успешно удалили резюме с " + uuid);
-        } else {
-            System.out.println("В хранилище нет резюме с " + uuid);
-        }
-    }
-
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
     }
 }
