@@ -6,32 +6,30 @@ import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
-    void recordToIndex(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index < 0) {//если такого резюме ещё нет
-            index = size;
-            if (size == 0) {
-                record(resume, size);
-            } else if (resume.compareTo((storage[index - 1])) >= 0) { // resume.uuid >= storage[index].uuid
-                record(resume, index);
-            } else { // resume.uuid < storage[index].uuid
-                while (resume.compareTo(storage[index-1]) < 0 && index >= 0) {
-                    if (index > 0) {
-                        index--;
-                    }
-                }
-                System.arraycopy(storage, index, storage, index + 1, size - index);
-                record(resume, index);
-            }
+    void recordToStorage(Resume resume, int index) {
+        if (index == 0) {
+            recordToIndex(resume, index);
         } else {
-            System.out.println("Резюме с " + resume.getUuid() + " уже есть.");
+            searchPlaceForResume(resume, index);
         }
     }
 
-    private void record(Resume resume, int index) {
+    private void recordToIndex(Resume resume, int index) {
         storage[index] = resume;
         size++;
         System.out.println("Вы успешно записали резюме с " + resume.getUuid());
+    }
+
+    private void searchPlaceForResume(Resume resume, int index) {
+        if (resume.compareTo(storage[index - 1]) > 0) { // новое резюме > последнего в хранилище
+            recordToIndex(resume, index);
+        } else { // новое резюме < последнего в хранилище
+            while (resume.compareTo(storage[index - 1]) < 0 && index > 0) {
+                index--;
+            }
+            System.arraycopy(storage, index, storage, index + 1, size - index);
+            recordToIndex(resume, index);
+        }
     }
 
     @Override

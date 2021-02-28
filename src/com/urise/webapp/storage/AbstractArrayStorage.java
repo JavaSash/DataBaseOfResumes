@@ -14,21 +14,19 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     final public void save(Resume resume) {
-        if (enoughSpace()) { //есть место в хранилище?
-            recordToIndex(resume);
-        }
-    }
-
-    final protected boolean enoughSpace() {
+        int index = getIndex(resume.getUuid());
         if (size < STORAGE_LIMIT) {
-            return true;
+            if (index < 0) {//если такого резюме ещё нет
+                recordToStorage(resume, size);
+            } else {
+                System.out.println("Резюме с " + resume.getUuid() + " уже есть.");
+            }
         } else {
             System.out.println("В хранилище закончилось место.");
-            return false;
         }
     }
 
-    abstract void recordToIndex(Resume resume);
+    abstract void recordToStorage(Resume resume, int index);
 
     final public Resume get(String uuid) {
         int index = getIndex(uuid);
