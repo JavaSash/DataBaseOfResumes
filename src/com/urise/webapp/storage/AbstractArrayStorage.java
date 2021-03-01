@@ -9,15 +9,18 @@ public abstract class AbstractArrayStorage implements Storage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    final public int size() {
+    public final int size() {
         return size;
     }
 
-    final public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
+    public final void save(Resume resume) {
         if (size < STORAGE_LIMIT) {
-            if (index < 0) {//если такого резюме ещё нет
-                recordToStorage(resume, size);
+            int index = getIndex(resume.getUuid());
+            //если такого резюме ещё нет
+            if (index < 0) {
+                saveToStorage(resume, index);
+                size++;
+                System.out.println("Вы успешно записали резюме с " + resume.getUuid());
             } else {
                 System.out.println("Резюме с " + resume.getUuid() + " уже есть.");
             }
@@ -26,9 +29,9 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    abstract void recordToStorage(Resume resume, int index);
+    abstract void saveToStorage(Resume resume, int index);
 
-    final public Resume get(String uuid) {
+    public final Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
             return storage[index];
@@ -37,7 +40,7 @@ public abstract class AbstractArrayStorage implements Storage {
         return null;
     }
 
-    final public void update(Resume resume) {
+    public final void update(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index >= 0) {
             storage[index] = resume;
@@ -47,7 +50,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    final public void delete(String uuid) {
+    public final void delete(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
             System.arraycopy(storage, index + 1, storage, index, size - (index + 1));
@@ -61,11 +64,11 @@ public abstract class AbstractArrayStorage implements Storage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    final public Resume[] getAll() {
+    public final Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
 
-    final public void clear() {
+    public final void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
         System.out.println("Вы очистили хранилище резюме.");

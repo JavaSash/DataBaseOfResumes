@@ -9,10 +9,8 @@ import com.urise.webapp.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    void recordToStorage(Resume resume, int index) {
+    void saveToStorage(Resume resume, int index) {
         storage[index] = resume;
-        size++;
-        System.out.println("Вы успешно записали резюме с " + resume.getUuid());
     }
 
     protected int getIndex(String uuid) {

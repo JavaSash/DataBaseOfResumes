@@ -6,30 +6,10 @@ import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
-    void recordToStorage(Resume resume, int index) {
-        if (index == 0) {
-            recordToIndex(resume, index);
-        } else {
-            searchPlaceForResume(resume, index);
-        }
-    }
-
-    private void recordToIndex(Resume resume, int index) {
-        storage[index] = resume;
-        size++;
-        System.out.println("Вы успешно записали резюме с " + resume.getUuid());
-    }
-
-    private void searchPlaceForResume(Resume resume, int index) {
-        if (resume.compareTo(storage[index - 1]) > 0) { // новое резюме > последнего в хранилище
-            recordToIndex(resume, index);
-        } else { // новое резюме < последнего в хранилище
-            while (resume.compareTo(storage[index - 1]) < 0 && index > 0) {
-                index--;
-            }
+    void saveToStorage(Resume resume, int index) {
+            index = -(index) - 1;
             System.arraycopy(storage, index, storage, index + 1, size - index);
-            recordToIndex(resume, index);
-        }
+            storage[index] = resume;
     }
 
     @Override
