@@ -13,6 +13,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         storage[index] = resume;
     }
 
+    @Override
     protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equalsIgnoreCase(uuid)) {

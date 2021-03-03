@@ -1,5 +1,8 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -22,10 +25,10 @@ public abstract class AbstractArrayStorage implements Storage {
                 size++;
                 System.out.println("Вы успешно записали резюме с " + resume.getUuid());
             } else {
-                System.out.println("Резюме с " + resume.getUuid() + " уже есть.");
+                throw new ExistStorageException(resume.getUuid());
             }
         } else {
-            System.out.println("В хранилище закончилось место.");
+            throw new StorageException("Хранилище переполнено", resume.getUuid());
         }
     }
 
@@ -36,8 +39,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             return storage[index];
         }
-        System.out.println("В хранилище нет резюме с " + uuid);
-        return null;
+        throw new NotExistStorageException(uuid);
     }
 
     public final void update(Resume resume) {
@@ -46,7 +48,7 @@ public abstract class AbstractArrayStorage implements Storage {
             storage[index] = resume;
             System.out.println("Вы успешно обновили резюме с " + resume.getUuid());
         } else {
-            System.out.println("Нет такого резюме.");
+            throw new NotExistStorageException(resume.getUuid());
         }
     }
 
@@ -57,7 +59,7 @@ public abstract class AbstractArrayStorage implements Storage {
             size--;
             System.out.println("Вы успешно удалили резюме с " + uuid);
         } else {
-            System.out.println("В хранилище нет резюме с " + uuid);
+            throw new NotExistStorageException(uuid);
         }
     }
 
