@@ -16,8 +16,6 @@ public class MainReflection {
         System.out.println(resume);
         field.setAccessible(false);*/
 
-// TODO : invoke r.toString via reflection
-
         Method method = Resume.class.getDeclaredMethod("toString");
         System.out.println("Result of calling method toString " + method.invoke(resume));
     }
