@@ -1,6 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
@@ -15,13 +14,24 @@ public class ListStorage extends AbstractStorage {
         return storage.size();
     }
 
-    public final void save(Resume resume) {
-        if (!storage.contains(resume)) {
-            storage.add(resume);
-            System.out.println("Вы успешно записали резюме с " + resume.getUuid());
-        } else {
-            throw new ExistStorageException(resume.getUuid());
-        }
+    @Override
+    protected boolean checkEnoughtSpace() {
+        return true;
+    }
+
+    @Override
+    protected int getIndex(String uuid) {
+        return 0;
+    }
+
+    @Override
+    protected boolean checkIsExistResume(Resume resume) {
+        return (storage.contains(resume));
+    }
+
+    @Override
+    protected void saveToStorage(Resume resume, int index) {
+        storage.add(resume);
     }
 
     public final Resume get(String uuid) throws NotExistStorageException {
@@ -33,22 +43,14 @@ public class ListStorage extends AbstractStorage {
         throw new NotExistStorageException(uuid);
     }
 
-    public final void update(Resume resume) throws NotExistStorageException {
-        if (storage.contains(resume)) {
-            storage.add(storage.indexOf(resume), resume);
-            System.out.println("Вы успешно обновили резюме с " + resume.getUuid());
-        } else {
-            throw new NotExistStorageException(resume.getUuid());
-        }
+    @Override
+    protected void updateResume(Resume resume) {
+        storage.add(storage.indexOf(resume), resume);
     }
 
-    public final void delete(String uuid) throws NotExistStorageException {
-        if (storage.contains(get(uuid))) {
-            storage.remove(get(uuid));
-            System.out.println("Вы успешно удалили резюме с " + uuid);
-        } else {
-            throw new ExistStorageException(uuid);
-        }
+    @Override
+    protected void deleteResume(String uuid) {
+        storage.remove(get(uuid));
     }
 
     public final Resume[] getAll() {

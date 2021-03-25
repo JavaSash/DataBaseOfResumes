@@ -30,6 +30,7 @@ public class ListStorageTest {
         storage.save(RESUME2);
         storage.save(RESUME3);
     }
+
     @Test
     public void size() {
         Assert.assertEquals(3, storage.size());
@@ -69,7 +70,7 @@ public class ListStorageTest {
     }
 
     @Test(expected = NotExistStorageException.class)
-    public void deleteNotExist(){
+    public void deleteNotExist() {
         storage.delete(UUID_4);
     }
 
