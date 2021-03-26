@@ -1,6 +1,6 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -14,9 +14,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    @Override
-    protected boolean checkEnoughtSpace() {
-        return (size < STORAGE_LIMIT);
+    public void save(Resume resume) {
+        if (size < STORAGE_LIMIT) {
+            super.save(resume);
+        } else {
+            throw new StorageException("Хранилище переполнено", resume.getUuid());
+        }
     }
 
     @Override
@@ -24,12 +27,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return !(getIndex(resume.getUuid()) < 0);
     }
 
-    public final Resume get(String uuid) throws NotExistStorageException {
+    @Override
+    protected Resume searchResume(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
             return storage[index];
         }
-        throw new NotExistStorageException(uuid);
+        return null;
     }
 
     @Override
@@ -56,4 +60,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
         System.out.println("Вы очистили хранилище резюме.");
     }
+
+    protected abstract int getIndex(String uuid);
 }

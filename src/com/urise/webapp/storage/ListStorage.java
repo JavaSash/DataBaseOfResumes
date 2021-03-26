@@ -1,6 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
@@ -15,32 +14,23 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean checkEnoughtSpace() {
-        return true;
-    }
-
-    @Override
-    protected int getIndex(String uuid) {
-        return 0;
-    }
-
-    @Override
     protected boolean checkIsExistResume(Resume resume) {
         return (storage.contains(resume));
     }
 
     @Override
-    protected void saveToStorage(Resume resume, int index) {
+    protected void saveToStorage(Resume resume) {
         storage.add(resume);
     }
 
-    public final Resume get(String uuid) throws NotExistStorageException {
+    @Override
+    protected Resume searchResume(String uuid) {
         for (Resume resume : storage) {
             if (resume.getUuid() == uuid) {
                 return resume;
             }
         }
-        throw new NotExistStorageException(uuid);
+        return null;
     }
 
     @Override

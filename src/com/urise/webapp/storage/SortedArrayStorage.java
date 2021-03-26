@@ -6,16 +6,16 @@ import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
-    protected void saveToStorage(Resume resume, int index) {
+    protected void saveToStorage(Resume resume) {
+        int index = getIndex(resume.getUuid());
         index = -(index) - 1;
         System.arraycopy(storage, index, storage, index + 1, size - index);
         storage[index] = resume;
         size++;
     }
 
-    @Override
     protected int getIndex(String uuid) {
         Resume searchKey = new Resume(uuid);
-        return Arrays.binarySearch(storage, 0, size, searchKey); //возвращает индекс элемента в массиве
+        return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 }

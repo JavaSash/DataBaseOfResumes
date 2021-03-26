@@ -9,13 +9,12 @@ import com.urise.webapp.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void saveToStorage(Resume resume, int index) {
-        index = size;
+    protected void saveToStorage(Resume resume) {
+        int index = size;
         storage[index] = resume;
         size++;
     }
 
-    @Override
     protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equalsIgnoreCase(uuid)) {

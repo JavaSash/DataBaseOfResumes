@@ -2,35 +2,30 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
-    public abstract int size();
-
-    public final void save(Resume resume) {
-        if (checkEnoughtSpace()) {
-            int index = getIndex(resume.getUuid());
+    public void save(Resume resume) {
             if (!checkIsExistResume(resume)) {
-                saveToStorage(resume, index);
+                saveToStorage(resume);
                 System.out.println("Вы успешно записали резюме с " + resume.getUuid());
             } else {
                 throw new ExistStorageException(resume.getUuid());
             }
-        } else {
-            throw new StorageException("Хранилище переполнено", resume.getUuid());
-        }
     }
-
-    protected abstract boolean checkEnoughtSpace();
-
-    protected abstract int getIndex(String uuid);
 
     protected abstract boolean checkIsExistResume(Resume resume);
 
-    protected abstract void saveToStorage(Resume resume, int index);
+    protected abstract void saveToStorage(Resume resume);
 
-    public abstract Resume get(String uuid);
+    public final Resume get(String uuid) throws NotExistStorageException {
+        if(searchResume(uuid) != null) {
+            return searchResume(uuid);
+        }
+        throw new NotExistStorageException(uuid);
+    }
+
+    protected abstract Resume searchResume(String uuid);
 
     public final void update(Resume resume) throws NotExistStorageException {
         if (checkIsExistResume(resume)) {
@@ -53,8 +48,4 @@ public abstract class AbstractStorage implements Storage {
     }
 
     protected abstract void deleteResume(String uuid);
-
-    public abstract Resume[] getAll();
-
-    public abstract void clear();
 }
