@@ -9,9 +9,8 @@ import com.urise.webapp.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void saveToStorage(Resume resume) {
-        int index = size;
-        storage[index] = resume;
+    protected void saveToStorageInArrays(Resume resume) {
+        storage[size] = resume;
         size++;
     }
 

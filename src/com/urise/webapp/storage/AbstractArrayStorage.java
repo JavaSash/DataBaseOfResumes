@@ -14,13 +14,15 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    public void save(Resume resume) {
+    protected void saveToStorage(Resume resume) {
         if (size < STORAGE_LIMIT) {
-            super.save(resume);
+            saveToStorageInArrays(resume);
         } else {
-            throw new StorageException("Хранилище переполнено", resume.getUuid());
+            throw new StorageException("The storage is overflow.", resume.getUuid());
         }
     }
+
+    protected abstract void saveToStorageInArrays(Resume resume);
 
     @Override
     protected boolean checkIsExistResume(Resume resume) {
@@ -28,12 +30,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume searchResume(String uuid) {
-        int index = getIndex(uuid);
-        if (index >= 0) {
-            return storage[index];
-        }
-        return null;
+    protected Resume getResume(String uuid) throws ArrayIndexOutOfBoundsException {
+        return storage[getIndex(uuid)];
     }
 
     @Override
@@ -55,10 +53,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return Arrays.copyOf(storage, size);
     }
 
-    public final void clear() {
+    protected void clearStorage() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
-        System.out.println("Вы очистили хранилище резюме.");
     }
 
     protected abstract int getIndex(String uuid);

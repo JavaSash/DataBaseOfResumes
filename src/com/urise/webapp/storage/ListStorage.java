@@ -24,7 +24,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume searchResume(String uuid) {
+    protected Resume getResume(String uuid) {
         for (Resume resume : storage) {
             if (resume.getUuid() == uuid) {
                 return resume;
@@ -47,12 +47,11 @@ public class ListStorage extends AbstractStorage {
         return storage.toArray(new Resume[0]);
     }
 
-    public final void clear() {
+    protected void clearStorage() {
         Iterator<Resume> resumeIterator = storage.iterator();
         while (resumeIterator.hasNext()) {
             resumeIterator.next();
             resumeIterator.remove();
         }
-        System.out.println("Вы очистили хранилище резюме.");
     }
 }
