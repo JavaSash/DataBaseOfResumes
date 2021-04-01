@@ -6,18 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    List<Resume> storage = new ArrayList<>();
+    private List<Resume> storage = new ArrayList<>();
 
     public final int size() {
         return storage.size();
     }
 
-    @Override
     protected int getIndex(String uuid) {
-        for (Resume resume : storage) {
-            if (resume.getUuid().equalsIgnoreCase(uuid)) {
-                return storage.indexOf(resume);
-            }
+        for (int i = 0; i < storage.size(); i++) {
+            if (storage.get(i).getUuid().equalsIgnoreCase(uuid))
+                return i;
         }
         return -1;
     }
@@ -28,17 +26,17 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(String uuid, int index) {
-            return storage.get(index);
+    protected Resume getResume(int index) {
+        return storage.get(index);
     }
 
     @Override
     protected void updateResume(Resume resume, int index) {
-        storage.add(index, resume);
+        storage.set(index, resume);
     }
 
     @Override
-    protected void deleteResume(String uuid, int index) {
+    protected void deleteResume(int index) {
         storage.remove(index);
     }
 

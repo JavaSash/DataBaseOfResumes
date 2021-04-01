@@ -1,24 +1,26 @@
 package com.urise.webapp;
 
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.SortedArrayStorage;
+import com.urise.webapp.storage.ListStorage;
 import com.urise.webapp.storage.Storage;
 
 /**
  * Test for your com.urise.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    private static final Storage ARRAY_STORAGE = new SortedArrayStorage();
+    private static final Storage ARRAY_STORAGE = new ListStorage();
 
     public static void main(String[] args) {
-        final Resume r1 = new Resume();
-        final Resume r2 = new Resume();
-        final Resume r3 = new Resume();
-        final Resume r8 = new Resume();
-        final Resume r5 = new Resume();
+        final Resume r1 = new Resume("uuid1");
+        final Resume r2 = new Resume("uuid2");
+        final Resume r3 = new Resume("uuid3");
+        final Resume r8 = new Resume("uuid8");
+        final Resume r5 = new Resume("uuid5");
 
         ARRAY_STORAGE.save(r8);
         ARRAY_STORAGE.save(r5);
+        ARRAY_STORAGE.save(r8);
+
         ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
         ARRAY_STORAGE.save(r1);

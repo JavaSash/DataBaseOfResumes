@@ -6,54 +6,66 @@ import com.urise.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
     public void save(Resume resume) {
-        if (!isExistResume(resume)) {
+        String uuid = resume.getUuid();
+        if (!isExistResume(uuid)) {
             saveToStorage(resume);
-            System.out.println("You have recorded resume with " + resume.getUuid());
+            System.out.println("You have recorded resume with " + uuid);
         } else {
-            throw new ExistStorageException(resume.getUuid());
+            catchingException(new ExistStorageException(uuid));
         }
     }
 
-    protected boolean isExistResume(Resume resume) {
-        return (getIndex(resume.getUuid()) >= 0);
+    private void catchingException(Exception exception) {
+        try {
+            throw new Exception();
+        } catch (Exception exc) {
+            System.out.println(exception.getMessage());
+        }
+    }
+
+    protected boolean isExistResume(String uuid) {
+        return (getIndex(uuid) >= 0);
     }
 
     protected abstract int getIndex(String uuid);
 
     protected abstract void saveToStorage(Resume resume);
 
-    public final Resume get(String uuid) throws NotExistStorageException {
+    //TODO что должен вернуть метод, если мы обрабатываем исключение?
+    public final Resume get(String uuid) {
         if (getIndex(uuid) >= 0) {
-            if (isExistResume(getResume(uuid, getIndex(uuid)))) {
-                return getResume(uuid, getIndex(uuid));
+            if (isExistResume(uuid)) {
+                return getResume(getIndex(uuid));
             }
         }
-        throw new NotExistStorageException(uuid);
+        catchingException(new NotExistStorageException(uuid));
+        return new Resume(null);
     }
 
-    protected abstract Resume getResume(String uuid, int index);
+    protected abstract Resume getResume(int index);
 
-    public final void update(Resume resume) throws NotExistStorageException {
-        if (isExistResume(resume)) {
-            updateResume(resume, getIndex(resume.getUuid()));
-            System.out.println("You have updated resume with " + resume.getUuid());
+    public final void update(Resume resume) {
+        String uuid = resume.getUuid();
+        if (isExistResume(uuid)) {
+            updateResume(resume, getIndex(uuid));
+            System.out.println("You have updated resume with " + uuid);
         } else {
-            throw new NotExistStorageException(resume.getUuid());
+            catchingException(new NotExistStorageException(uuid));
         }
     }
 
     protected abstract void updateResume(Resume resume, int index);
 
-    public final void delete(String uuid) throws NotExistStorageException {
-        if (isExistResume(get(uuid))) {
-            deleteResume(uuid, getIndex(uuid));
+    public final void delete(String uuid) {
+        if (isExistResume(uuid)) {
+            deleteResume(getIndex(uuid));
             System.out.println("You have deleted resume with " + uuid);
         } else {
-            throw new NotExistStorageException(uuid);
+            catchingException(new NotExistStorageException(uuid));
         }
     }
 
-    protected abstract void deleteResume(String uuid, int index);
+    protected abstract void deleteResume(int index);
 
     public final void clear() {
         clearStorage();
