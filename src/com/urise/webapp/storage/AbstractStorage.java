@@ -12,15 +12,7 @@ public abstract class AbstractStorage implements Storage {
             saveToStorage(resume, index);
             System.out.println("You have recorded resume with " + uuid);
         } else {
-            catchingException(new ExistStorageException(uuid));
-        }
-    }
-
-    private void catchingException(Exception exception) {
-        try {
-            throw new Exception();
-        } catch (Exception exc) {
-            System.out.println(exception.getMessage());
+            throw new ExistStorageException(uuid);
         }
     }
 
@@ -37,12 +29,7 @@ public abstract class AbstractStorage implements Storage {
         if (isExistResume(index)) {
             return getResume(index);
         }
-        try {
-            throw new NotExistStorageException(uuid);
-        } catch (Exception exc) {
-            System.out.println(exc.getMessage());
-            throw exc;
-        }
+        throw new NotExistStorageException(uuid);
     }
 
     protected abstract Resume getResume(int index);
@@ -54,7 +41,7 @@ public abstract class AbstractStorage implements Storage {
             updateResume(resume, index);
             System.out.println("You have updated resume with " + uuid);
         } else {
-            catchingException(new NotExistStorageException(uuid));
+            throw new NotExistStorageException(uuid);
         }
     }
 
@@ -66,7 +53,7 @@ public abstract class AbstractStorage implements Storage {
             deleteResume(index);
             System.out.println("You have deleted resume with " + uuid);
         } else {
-            catchingException(new NotExistStorageException(uuid));
+            throw new NotExistStorageException(uuid);
         }
     }
 

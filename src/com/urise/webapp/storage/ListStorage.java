@@ -8,10 +8,12 @@ import java.util.List;
 public class ListStorage extends AbstractStorage {
     private List<Resume> storage = new ArrayList<>();
 
+    @Override
     public final int size() {
         return storage.size();
     }
 
+    @Override
     protected int getIndex(String uuid) {
         for (int i = 0; i < storage.size(); i++) {
             if (storage.get(i).getUuid().equalsIgnoreCase(uuid))
@@ -40,10 +42,12 @@ public class ListStorage extends AbstractStorage {
         storage.remove(index);
     }
 
+    @Override
     public final Resume[] getAll() {
         return storage.toArray(new Resume[0]);
     }
 
+    @Override
     protected void clearStorage() {
         storage.clear();
     }

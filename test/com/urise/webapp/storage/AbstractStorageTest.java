@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 import org.junit.Before;
@@ -47,12 +48,9 @@ public abstract class AbstractStorageTest {
         assertSame(RESUME4, storage.get(UUID_4));
     }
 
-    @Test
+    @Test(expected = ExistStorageException.class)
     public void saveAlreadyExist() {
         storage.save(RESUME1);
-        Resume[] allResume = storage.getAll();
-        assertEquals(3, storage.size());
-        assertEquals(RESUME1, allResume[0]);
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -74,11 +72,10 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() {
-        storage.update(RESUME4);
-        storage.get(UUID_4);
+        storage.update(storage.get(UUID_4));
     }
 
-    @Test
+    @Test(expected = NotExistStorageException.class)
     public void deleteNotExist() {
         storage.delete("dummy");
         assertEquals(3, storage.size());

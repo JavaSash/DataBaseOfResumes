@@ -10,10 +10,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
+    @Override
     public final int size() {
         return size;
     }
 
+    @Override
     protected void saveToStorage(Resume resume, int index) {
         if (size < STORAGE_LIMIT) {
             saveToArray(resume, index);
@@ -44,10 +46,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
+    @Override
     public final Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
 
+    @Override
     protected void clearStorage() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
