@@ -28,8 +28,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected abstract void saveToArray(Resume resume, int index);
 
     @Override
-    protected boolean isExist(String uuid) {
-        if ((Integer) getIndex(uuid) >= 0)
+    protected boolean isExist(Object key) {
+        if ((Integer) key >= 0)
             return true;
         return false;
     }
@@ -46,11 +46,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     protected final void deleteResume(Object key) {
-        System.arraycopy(storage,
-                (Integer) key + 1,
-                storage,
-                (Integer) key,
-                size - ((Integer) key + 1));
+        int index = (Integer) key;
+        System.arraycopy(storage, index + 1, storage, index, size - (index + 1));
         size--;
     }
 
