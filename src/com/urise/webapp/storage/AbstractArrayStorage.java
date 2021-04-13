@@ -52,10 +52,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    @Override
-    public final Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
-    }
+
 
     @Override
     protected void clearStorage() {

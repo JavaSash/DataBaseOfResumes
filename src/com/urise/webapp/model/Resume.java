@@ -9,13 +9,16 @@ public class Resume implements Comparable<Resume> {
 
     // Unique identifier
     private final String uuid;
+    private String fullName;
 
     public Resume() {
-        this(UUID.randomUUID().toString());
+        this.uuid = (UUID.randomUUID().toString());
+
     }
 
-    public Resume(String uuid) {
+    public Resume(String uuid, String fullName) {
         this.uuid = uuid;
+        this.fullName = fullName;
     }
 
     public String getUuid() {
