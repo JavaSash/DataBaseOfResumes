@@ -2,7 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +15,7 @@ public class MapUuidStorage extends AbstractStorage {
         return storage.size();
     }
 
+    @Override
     protected Object getSearchKey(String uuid) {
         return storage.containsKey(uuid) ? uuid : null;
     }
@@ -25,18 +26,18 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object key) {
-        return storage.containsKey(key);
+    protected boolean isExist(Object uuid) {
+        return storage.containsKey(uuid);
     }
 
     @Override
-    protected Resume getResume(Object key) {
-        return storage.get(key);
+    protected Resume getResume(Object uuid) {
+        return storage.get(uuid);
     }
 
     @Override
     protected void updateResume(Resume resume, Object key) {
-        storage.put((String) key, resume);
+        storage.replace(resume.getUuid(), resume);
     }
 
     @Override
@@ -45,17 +46,8 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    public final List<Resume> getAllSorted() {
-//        Collection<Resume> resumes = storage.values();
-//        List<Resume> list = ;
-////        for (Resume resume : resumes) {
-////            list.add(resume);
-////        }
-//        Collections.sort(list);
-        Object[] array = storage.values().toArray();
-        Arrays.sort(array);
-        return (List<Resume>) (Object) Arrays.asList(array);
-//        return list;
+    public final List<Resume> toList() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override

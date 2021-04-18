@@ -1,24 +1,36 @@
 package com.urise.webapp.model;
 
+import java.util.Comparator;
 import java.util.UUID;
 
 /**
  * Initial resume class
  */
 public class Resume implements Comparable<Resume> {
+    public static final Comparator<Resume> COMPARATOR_BY_UUID = Comparator.comparing(Resume::getUuid);
+//    public static final Comparator<Resume> COMPARATOR_BY_FULL_NAME = (o1, o2) ->
+//    {
+//        if (o1.getFullName().equalsIgnoreCase(o2.getFullName())) {
+//            return o1.getUuid().compareTo(o2.getUuid());
+//        }
+//        return o1.getFullName().compareTo(o2.getFullName());
+//    };
 
     // Unique identifier
-    private final String uuid;
     private String fullName;
+    private final String uuid;
 
-    public Resume() {
-        this.uuid = (UUID.randomUUID().toString());
-
-    }
-
-    public Resume(String uuid, String fullName) {
-        this.uuid = uuid;
-        this.fullName = fullName;
+    public Resume(String... args) {
+        if (args.length == 0) {
+            fullName = "no name";
+            uuid = (UUID.randomUUID().toString());
+        } else if (args.length == 1) {
+            fullName = args[0];
+            uuid = (UUID.randomUUID().toString());
+        } else {
+            fullName = args[0];
+            uuid = args[1];
+        }
     }
 
     public String getUuid() {
@@ -27,7 +39,7 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public String toString() {
-        return uuid;
+        return uuid + " " + fullName;
     }
 
     @Override
@@ -47,6 +59,17 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public int compareTo(Resume resume) {
-        return uuid.compareTo(resume.uuid);
+        if (fullName.equalsIgnoreCase(resume.getFullName())) {
+            return uuid.compareTo(resume.getUuid());
+        }
+        return fullName.compareTo(resume.getFullName());
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }
