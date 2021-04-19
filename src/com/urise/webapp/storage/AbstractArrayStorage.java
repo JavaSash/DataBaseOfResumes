@@ -52,13 +52,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size--;
     }
 
-
     @Override
     protected void clearStorage() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
-    
+
     @Override
     public final List<Resume> toList() {
         return Arrays.asList(copyOf(storage, size));

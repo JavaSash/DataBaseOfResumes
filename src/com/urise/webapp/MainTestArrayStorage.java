@@ -11,11 +11,11 @@ public class MainTestArrayStorage {
     private static final Storage ARRAY_STORAGE = new MapStorage();
 
     public static void main(String[] args) {
-        final Resume r1 = new Resume("Арцыбашев Демид", "uuid1");
-        final Resume r2 = new Resume("Бурдюков Кирилл", "uuid2");
-        final Resume r3 = new Resume("Бурдюков Кирилл", "uuid3");
-        final Resume r8 = new Resume("Дергач Анатолий", "uuid8");
-        final Resume r5 = new Resume("Сологуб Валерий", "uuid5");
+        final Resume r1 = new Resume("uuid1", "Арцыбашев Демид");
+        final Resume r2 = new Resume("uuid2", "Бурдюков Кирилл");
+        final Resume r3 = new Resume("uuid3", "Бурдюков Кирилл");
+        final Resume r8 = new Resume("uuid8", "Дергач Анатолий");
+        final Resume r5 = new Resume("uuid5", "Сологуб Валерий");
 
         ARRAY_STORAGE.save(r8);
         ARRAY_STORAGE.save(r5);
