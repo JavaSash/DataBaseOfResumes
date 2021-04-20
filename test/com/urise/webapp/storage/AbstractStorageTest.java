@@ -3,13 +3,14 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
     protected Storage storage;
@@ -96,12 +97,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() {
-        List<Resume> allResume = storage.getAllSorted();
-        assertEquals(storage.size(), allResume.size());
-        //Нагуглил использование фреймворка Hamcrest
-        assertThat(allResume, CoreMatchers.hasItems(RESUME1, RESUME2, RESUME3));
-        //Потому что это выглядит плохо
-        assertEquals(allResume, storage.getAllSorted());
+        List<Resume> expectedResumes = Arrays.asList(RESUME1, RESUME2, RESUME3);
+        expectedResumes.sort(Resume::compareTo);
+        assertEquals(expectedResumes, storage.getAllSorted());
     }
 
     @Test
