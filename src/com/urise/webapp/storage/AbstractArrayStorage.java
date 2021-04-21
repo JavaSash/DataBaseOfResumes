@@ -8,7 +8,7 @@ import java.util.List;
 
 import static java.util.Arrays.copyOf;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10_000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
@@ -21,9 +21,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveToStorage(Resume resume, Object key) {
+    protected void saveToStorage(Resume resume, Integer key) {
         if (size < STORAGE_LIMIT) {
-            saveToArray(resume, (Integer) key);
+            saveToArray(resume, key);
             size++;
         } else {
             throw new StorageException("The storage is overflow.", resume.getUuid());
@@ -31,23 +31,23 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object key) {
-        return (Integer) key >= 0;
+    protected boolean isExist(Integer key) {
+        return key >= 0;
     }
 
     @Override
-    protected Resume getResume(Object key) {
-        return storage[(Integer) key];
+    protected Resume getResume(Integer key) {
+        return storage[key];
     }
 
     @Override
-    protected void updateResume(Resume resume, Object key) {
-        storage[(Integer) key] = resume;
+    protected void updateResume(Resume resume, Integer key) {
+        storage[key] = resume;
     }
 
     @Override
-    protected final void deleteResume(Object key) {
-        int index = (Integer) key;
+    protected final void deleteResume(Integer key) {
+        int index = key;
         System.arraycopy(storage, index + 1, storage, index, size - (index + 1));
         size--;
     }

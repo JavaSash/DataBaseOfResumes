@@ -7,17 +7,17 @@ import java.util.Optional;
 public class MapFullNameStorage extends AbstractMapStorage {
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected String getSearchKey(String uuid) {
         return storage.containsKey(uuid) ?
                 storage.get(uuid).getFullName() : null;
     }
 
     @Override
-    protected Resume getResume(Object fullName) {
+    protected Resume getResume(String fullName) {
         return searchResume(fullName).get();
     }
 
-    private Optional<Resume> searchResume(Object fullName) {
+    private Optional<Resume> searchResume(String fullName) {
         return storage.values()
                 .stream()
                 .filter(value -> value.getFullName().equals(fullName))
@@ -25,7 +25,7 @@ public class MapFullNameStorage extends AbstractMapStorage {
     }
 
     @Override
-    protected void deleteResume(Object fullName) {
+    protected void deleteResume(String fullName) {
         storage.remove(searchResume(fullName).get().getUuid());
     }
 }

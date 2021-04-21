@@ -6,18 +6,18 @@ import com.urise.webapp.model.Resume;
 
 import java.util.List;
 
-public abstract class AbstractStorage implements Storage {
-    protected abstract boolean isExist(Object key);
+public abstract class AbstractStorage<SK> implements Storage {
+    protected abstract boolean isExist(SK key);
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract SK getSearchKey(String uuid);
 
-    protected abstract void saveToStorage(Resume resume, Object key);
+    protected abstract void saveToStorage(Resume resume, SK key);
 
-    protected abstract Resume getResume(Object key);
+    protected abstract Resume getResume(SK key);
 
-    protected abstract void updateResume(Resume resume, Object key);
+    protected abstract void updateResume(Resume resume, SK key);
 
-    protected abstract void deleteResume(Object key);
+    protected abstract void deleteResume(SK key);
 
     protected abstract void clearStorage();
 
@@ -25,13 +25,13 @@ public abstract class AbstractStorage implements Storage {
 
     public void save(Resume resume) {
         String uuid = resume.getUuid();
-        Object searchKey = searchNotExistKey(uuid);
+        SK searchKey = searchNotExistKey(uuid);
         saveToStorage(resume, searchKey);
         System.out.println("You have recorded resume with " + uuid + " " + resume.getFullName());
     }
 
-    private Object searchNotExistKey(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+    private SK searchNotExistKey(String uuid) {
+        SK searchKey = getSearchKey(uuid);
         if (!isExist(searchKey))
             return searchKey;
         throw new ExistStorageException(uuid);
@@ -41,8 +41,8 @@ public abstract class AbstractStorage implements Storage {
         return getResume(searchExistKey(uuid));
     }
 
-    private Object searchExistKey(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+    private SK searchExistKey(String uuid) {
+        SK searchKey = getSearchKey(uuid);
         if (isExist(searchKey))
             return searchKey;
         throw new NotExistStorageException(uuid);
