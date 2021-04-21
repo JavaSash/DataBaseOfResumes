@@ -7,6 +7,22 @@ import com.urise.webapp.model.Resume;
 import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
+    protected abstract boolean isExist(Object key);
+
+    protected abstract Object getSearchKey(String uuid);
+
+    protected abstract void saveToStorage(Resume resume, Object key);
+
+    protected abstract Resume getResume(Object key);
+
+    protected abstract void updateResume(Resume resume, Object key);
+
+    protected abstract void deleteResume(Object key);
+
+    protected abstract void clearStorage();
+
+    protected abstract List<Resume> toList();
+
     public void save(Resume resume) {
         String uuid = resume.getUuid();
         Object searchKey = searchNotExistKey(uuid);
@@ -21,12 +37,6 @@ public abstract class AbstractStorage implements Storage {
         throw new ExistStorageException(uuid);
     }
 
-    protected abstract boolean isExist(Object key);
-
-    protected abstract Object getSearchKey(String uuid);
-
-    protected abstract void saveToStorage(Resume resume, Object key);
-
     public final Resume get(String uuid) {
         return getResume(searchExistKey(uuid));
     }
@@ -38,35 +48,25 @@ public abstract class AbstractStorage implements Storage {
         throw new NotExistStorageException(uuid);
     }
 
-    protected abstract Resume getResume(Object key);
-
     public final void update(Resume resume) {
         String uuid = resume.getUuid();
         updateResume(resume, searchExistKey(uuid));
         System.out.println("You have updated resume with " + uuid + " " + resume.getFullName());
     }
 
-    protected abstract void updateResume(Resume resume, Object key);
-
     public final void delete(String uuid) {
         deleteResume(searchExistKey(uuid));
         System.out.println("You have deleted resume with " + uuid);
     }
-
-    protected abstract void deleteResume(Object key);
 
     public final void clear() {
         clearStorage();
         System.out.println("You have cleared the resume storage.");
     }
 
-    protected abstract void clearStorage();
-
     public final List<Resume> getAllSorted() {
         List<Resume> sortedList = toList();
         sortedList.sort(Resume::compareTo);
         return sortedList;
     }
-
-    protected abstract List<Resume> toList();
 }

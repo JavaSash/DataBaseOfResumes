@@ -4,7 +4,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Optional;
 
-public class MapStorage extends AbstractMapStorage {
+public class MapFullNameStorage extends AbstractMapStorage {
 
     @Override
     protected Object getSearchKey(String uuid) {

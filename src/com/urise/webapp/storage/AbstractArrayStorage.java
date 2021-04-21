@@ -13,6 +13,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
+    protected abstract void saveToArray(Resume resume, int index);
+
     @Override
     public final int size() {
         return size;
@@ -27,8 +29,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
             throw new StorageException("The storage is overflow.", resume.getUuid());
         }
     }
-
-    protected abstract void saveToArray(Resume resume, int index);
 
     @Override
     protected boolean isExist(Object key) {
