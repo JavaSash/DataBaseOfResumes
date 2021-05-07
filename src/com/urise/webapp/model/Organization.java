@@ -18,11 +18,7 @@ public class Organization {
     }
 
     public Organization(String name, String position, YearMonth from, YearMonth to) {
-        this.name = name;
-        this.position = position;
-        info = "";
-        this.from = from;
-        this.to = to;
+        this(name, position, "", from, to);
     }
 
     public void setInfo(String info) {

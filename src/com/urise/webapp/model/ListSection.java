@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListSection extends AbstractSection<List<String>> {
-    ListSection() {
+    public ListSection() {
         super(new ArrayList<>());
     }
 
@@ -13,15 +13,11 @@ public class ListSection extends AbstractSection<List<String>> {
         info.add((String) element);
     }
 
-    @Override
-    public void deleteInfo() {
-        info.clear();
-    }
     //TODO: перенос строки при N символов в строке
     @Override
-    public final String toString(){
+    public final String toString() {
         StringBuilder sb = new StringBuilder();
-        for(String str : info) {
+        for (String str : info) {
             sb.append(" * ").append(str).append("\n\n");
         }
         return sb.toString();

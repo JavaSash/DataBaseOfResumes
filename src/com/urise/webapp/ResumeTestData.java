@@ -1,16 +1,18 @@
 package com.urise.webapp;
 
-import com.urise.webapp.model.ContactType;
-import com.urise.webapp.model.Organization;
-import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.*;
 
 import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ResumeTestData {
     public static void main(String[] args) {
         Resume resume1 = new Resume("Григорий Кислин");
+        AbstractSection personal = new TextSection();
+        AbstractSection objective = new TextSection();
+        AbstractSection achievement = new ListSection();
+        AbstractSection qualification = new ListSection();
+        AbstractSection experience = new OrganizationSection();
+        AbstractSection education = new OrganizationSection();
 
         final String personalTxt = "Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.";
         final String objectiveTxt = "Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям";
@@ -23,85 +25,50 @@ public class ResumeTestData {
         final String siemensTxt = "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix).";
         final String alcatelTxt = "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).";
 
+        objective.setInfo(objectiveTxt);
+        personal.setInfo(personalTxt);
 
-        List<String> achievements = new ArrayList<>();
-        achievements.add("С 2013 года: разработка проектов \"Разработка Web приложения\", \"Java Enterprise\", \"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.");
-        achievements.add("Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.");
-        achievements.add("Налаживание процесса разработки и непрерывной интеграции ERP системы River BPM. Интеграция с 1С, Bonita BPM, CMIS, LDAP. Разработка приложения управления окружением на стеке: Scala/Play/Anorm/JQuery. Разработка SSO аутентификации и авторизации различных ERP модулей, интеграция CIFS/SMB java сервера.");
-        achievements.add("Реализация c нуля Rich Internet Application приложения на стеке технологий JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Commet, HTML5, Highstock для алгоритмического трейдинга.");
-        achievements.add("Создание JavaEE фреймворка для отказоустойчивого взаимодействия слабо-связанных сервисов (SOA-base архитектура, JAX-WS, JMS, AS Glassfish). Сбор статистики сервисов и информации о состоянии через систему мониторинга Nagios. Реализация онлайн клиента для администрирования и мониторинга системы по JMX (Jython/ Django).");
-        achievements.add("Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
+        achievement.setInfo("С 2013 года: разработка проектов \"Разработка Web приложения\", \"Java Enterprise\", \"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.");
+        achievement.setInfo("Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.");
+        achievement.setInfo("Налаживание процесса разработки и непрерывной интеграции ERP системы River BPM. Интеграция с 1С, Bonita BPM, CMIS, LDAP. Разработка приложения управления окружением на стеке: Scala/Play/Anorm/JQuery. Разработка SSO аутентификации и авторизации различных ERP модулей, интеграция CIFS/SMB java сервера.");
+        achievement.setInfo("Реализация c нуля Rich Internet Application приложения на стеке технологий JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Commet, HTML5, Highstock для алгоритмического трейдинга.");
+        achievement.setInfo("Создание JavaEE фреймворка для отказоустойчивого взаимодействия слабо-связанных сервисов (SOA-base архитектура, JAX-WS, JMS, AS Glassfish). Сбор статистики сервисов и информации о состоянии через систему мониторинга Nagios. Реализация онлайн клиента для администрирования и мониторинга системы по JMX (Jython/ Django).");
+        achievement.setInfo("Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
 
-        List<String> qualifications = new ArrayList<>();
-        qualifications.add("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
-        qualifications.add("Version control: Subversion, Git, Mercury, ClearCase, Perforce");
-        qualifications.add("DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle");
-        qualifications.add("MySQL, SQLite, MS SQL, HSQLDB");
-        qualifications.add("Languages: Java, Scala, Python/Jython/PL-Python, JavaScript, Groovy");
-        qualifications.add("XML/XSD/XSLT, SQL, C/C++, Unix shell scripts");
-        qualifications.add("Java Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis, Spring (MVC, Security, Data, Clouds, Boot), JPA (Hibernate, EclipseLink), Guice, GWT(SmartGWT, ExtGWT/GXT), Vaadin, Jasperreports, Apache Commons, Eclipse SWT, JUnit, Selenium (htmlelements).");
-        qualifications.add("Python: Django");
-        qualifications.add("JavaScript: jQuery, ExtJS, Bootstrap.js, underscore.js");
-        qualifications.add("Scala: SBT, Play2, Specs2, Anorm, Spray, Akka");
-        qualifications.add("Технологии: Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS, JavaMail, JAXB, StAX, SAX, DOM, XSLT, MDB, JMX, JDBC, JPA, JNDI, JAAS, SOAP, AJAX, Commet, HTML5, ESB, CMIS, BPMN2, LDAP, OAuth1, OAuth2, JWT.");
-        qualifications.add("Инструменты: Maven + plugin development, Gradle, настройка Ngnix.");
-        qualifications.add("Администрирование Hudson/Jenkins, Ant + custom task, SoapUI, JPublisher, Flyway, Nagios, iReport, OpenCmis, Bonita, pgBouncer.");
-        qualifications.add("Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования, архитектурных шаблонов, UML, функционального программирования");
-        qualifications.add("Родной русский, английский \"upper intermediate\"");
+        qualification.setInfo("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
+        qualification.setInfo("Version control: Subversion, Git, Mercury, ClearCase, Perforce");
+        qualification.setInfo("DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle");
+        qualification.setInfo("MySQL, SQLite, MS SQL, HSQLDB");
+        qualification.setInfo("Languages: Java, Scala, Python/Jython/PL-Python, JavaScript, Groovy");
+        qualification.setInfo("XML/XSD/XSLT, SQL, C/C++, Unix shell scripts");
+        qualification.setInfo("Java Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis, Spring (MVC, Security, Data, Clouds, Boot), JPA (Hibernate, EclipseLink), Guice, GWT(SmartGWT, ExtGWT/GXT), Vaadin, Jasperreports, Apache Commons, Eclipse SWT, JUnit, Selenium (htmlelements).");
+        qualification.setInfo("Python: Django");
+        qualification.setInfo("JavaScript: jQuery, ExtJS, Bootstrap.js, underscore.js");
+        qualification.setInfo("Scala: SBT, Play2, Specs2, Anorm, Spray, Akka");
+        qualification.setInfo("Технологии: Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS, JavaMail, JAXB, StAX, SAX, DOM, XSLT, MDB, JMX, JDBC, JPA, JNDI, JAAS, SOAP, AJAX, Commet, HTML5, ESB, CMIS, BPMN2, LDAP, OAuth1, OAuth2, JWT.");
+        qualification.setInfo("Инструменты: Maven + plugin development, Gradle, настройка Ngnix.");
+        qualification.setInfo("Администрирование Hudson/Jenkins, Ant + custom task, SoapUI, JPublisher, Flyway, Nagios, iReport, OpenCmis, Bonita, pgBouncer.");
+        qualification.setInfo("Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования, архитектурных шаблонов, UML, функционального программирования");
+        qualification.setInfo("Родной русский, английский \"upper intermediate\"");
 
-        List<Organization> orgExp = new ArrayList<>();
-        Organization javaOnlineProjects = new Organization("JavaOnlineProjects", "Автор проекта", jopTxt, YearMonth.of(2013, 10), YearMonth.now());
-        Organization wrike = new Organization("Wrike", "Старший разработчик (backend)", wrikeTxt, YearMonth.of(2014, 10), YearMonth.of(2016, 1));
-        Organization ritCenter = new Organization("RIT Center", "Java архитектор", ritTxt, YearMonth.of(2012, 4), YearMonth.of(2014, 10));
-        Organization luxoftExp = new Organization("Luxoft (Deutsche Bank)", "Ведущий программист", luxoftTxt, YearMonth.of(2010, 12), YearMonth.of(2012, 4));
-        Organization yota = new Organization("Yota", "Ведущий специалист", yotaTxt, YearMonth.of(2008, 6), YearMonth.of(2010, 12));
-        Organization enkata = new Organization("Enkata", "Разработчик ПО", enkataTxt, YearMonth.of(2007, 3), YearMonth.of(2008, 6));
-        Organization siemensExp = new Organization("Siemens AG", "Разработчик ПО", siemensTxt, YearMonth.of(2005, 1), YearMonth.of(2007, 2));
-        Organization alcatelExp = new Organization("Alcatel", "Инженер по аппаратному и программному тестированию", alcatelTxt, YearMonth.of(1997, 9), YearMonth.of(2005, 1));
-        orgExp.add(javaOnlineProjects);
-        orgExp.add(wrike);
-        orgExp.add(ritCenter);
-        orgExp.add(luxoftExp);
-        orgExp.add(yota);
-        orgExp.add(enkata);
-        orgExp.add(siemensExp);
-        orgExp.add(alcatelExp);
+        experience.setInfo(new Organization("JavaOnlineProjects", "Автор проекта", jopTxt, YearMonth.of(2013, 10), YearMonth.now()));
+        experience.setInfo(new Organization("Wrike", "Старший разработчик (backend)", wrikeTxt, YearMonth.of(2014, 10), YearMonth.of(2016, 1)));
+        experience.setInfo(new Organization("RIT Center", "Java архитектор", ritTxt, YearMonth.of(2012, 4), YearMonth.of(2014, 10)));
+        experience.setInfo(new Organization("Luxoft (Deutsche Bank)", "Ведущий программист", luxoftTxt, YearMonth.of(2010, 12), YearMonth.of(2012, 4)));
+        experience.setInfo(new Organization("Yota", "Ведущий специалист", yotaTxt, YearMonth.of(2008, 6), YearMonth.of(2010, 12)));
+        experience.setInfo(new Organization("Enkata", "Разработчик ПО", enkataTxt, YearMonth.of(2007, 3), YearMonth.of(2008, 6)));
+        experience.setInfo(new Organization("Siemens AG", "Разработчик ПО", siemensTxt, YearMonth.of(2005, 1), YearMonth.of(2007, 2)));
+        experience.setInfo(new Organization("Alcatel", "Инженер по аппаратному и программному тестированию", alcatelTxt, YearMonth.of(1997, 9), YearMonth.of(2005, 1)));
 
-        List<Organization> orgEduc = new ArrayList<>();
-        Organization coursera = new Organization("Coursera", "\"Functional Programming Principles in Scala\" by Martin Odersky", YearMonth.of(2013,03), YearMonth.of(2013,05));
-        Organization luxoftEduc = new Organization("Luxoft", "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML", YearMonth.of(2011,03), YearMonth.of(2011,04));
-        Organization siemensEduc = new Organization("Siemens AG", "3 месяца обучения мобильным IN сетям (Берлин)", YearMonth.of(2005,01), YearMonth.of(2005,04));
-        Organization alcatelEduc = new Organization("Alcatel", "6 месяцев обучения цифровым телефонным сетям (Москва)", YearMonth.of(1997,9), YearMonth.of(1998,03));
-        Organization university = new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "Аспирантура (программист C, C++)", YearMonth.of(1993,9),YearMonth.of(1996, 07));
-        Organization university2 = new Organization("", "Инжнер (программист Fortran, C)", YearMonth.of(1987, 9), YearMonth.of(1993,07));
-        Organization school = new Organization("Заочная физико-техническая школа при МФТИ", "Закончил с отличием", YearMonth.of(1984, 9), YearMonth.of(1987, 06));
-        orgEduc.add(coursera);
-        orgEduc.add(luxoftEduc);
-        orgEduc.add(siemensEduc);
-        orgEduc.add(alcatelEduc);
-        orgEduc.add(university);
-        orgEduc.add(university2);
-        orgEduc.add(school);
+        education.setInfo(new Organization("Coursera", "\"Functional Programming Principles in Scala\" by Martin Odersky", YearMonth.of(2013, 3), YearMonth.of(2013, 5)));
+        education.setInfo(new Organization("Luxoft", "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML", YearMonth.of(2011, 3), YearMonth.of(2011, 4)));
+        education.setInfo(new Organization("Siemens AG", "3 месяца обучения мобильным IN сетям (Берлин)", YearMonth.of(2005, 1), YearMonth.of(2005, 4)));
+        education.setInfo(new Organization("Alcatel", "6 месяцев обучения цифровым телефонным сетям (Москва)", YearMonth.of(1997, 9), YearMonth.of(1998, 3)));
+        education.setInfo(new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "Аспирантура (программист C, C++)", YearMonth.of(1993, 9), YearMonth.of(1996, 7)));
+        education.setInfo(new Organization("", "Инжнер (программист Fortran, C)", YearMonth.of(1987, 9), YearMonth.of(1993, 7)));
+        education.setInfo(new Organization("Заочная физико-техническая школа при МФТИ", "Закончил с отличием", YearMonth.of(1984, 9), YearMonth.of(1987, 6)));
 
         System.out.println(resume1);
-        resume1.getObjective().setInfo(objectiveTxt);
-        resume1.getPersonal().setInfo(personalTxt);
-
-        for (String str : achievements) {
-            resume1.getAchievement().setInfo(str);
-        }
-
-        for (String str : qualifications) {
-            resume1.getQualification().setInfo(str);
-        }
-
-        for (Organization org : orgExp) {
-            resume1.getExperience().setInfo(org);
-        }
-
-        for (Organization org : orgEduc) {
-            resume1.getEducation().setInfo(org);
-        }
 
         resume1.setContacts(ContactType.PHONE, "+7(921) 855-0482");
         resume1.setContacts(ContactType.SKYPE, "grigory.kislin");
@@ -110,7 +77,15 @@ public class ResumeTestData {
         resume1.setContacts(ContactType.GITHUB, "");
         resume1.setContacts(ContactType.STACKOVERFLOW, "");
         resume1.setContacts(ContactType.HOME_PAGE, "");
-        System.out.println(resume1);
 
+
+        resume1.setSections(SectionType.PERSONAL, personal);
+        resume1.setSections(SectionType.OBJECTIVE, objective);
+        resume1.setSections(SectionType.ACHIEVEMENT, achievement);
+        resume1.setSections(SectionType.QUALIFICATIONS, qualification);
+        resume1.setSections(SectionType.EXPERIENCE, experience);
+        resume1.setSections(SectionType.EDUCATION, education);
+
+        System.out.println(resume1);
     }
 }

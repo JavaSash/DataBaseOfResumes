@@ -8,10 +8,4 @@ public abstract class AbstractSection<T> {
     }
 
     public abstract void setInfo(Object element);
-
-    public abstract void deleteInfo();
-
-    public final T getInfo() {
-        return info;
-    }
 }
