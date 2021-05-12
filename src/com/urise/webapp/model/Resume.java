@@ -1,6 +1,9 @@
 package com.urise.webapp.model;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Initial resume class
@@ -10,7 +13,7 @@ public class Resume implements Comparable<Resume> {
     private final String uuid;
     private final String fullName;
     private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
-    private Map<SectionType, AbstractSection> sections = new LinkedHashMap<>();
+    private Map<SectionType, AbstractSection<?>> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -31,76 +34,58 @@ public class Resume implements Comparable<Resume> {
         return fullName;
     }
 
-    public void setSections(SectionType key, AbstractSection value) {
+    public void setSection(SectionType key, AbstractSection<?> value) {
         sections.put(key, value);
     }
 
-    public void setContacts(ContactType key, String value) {
+    public void setContact(ContactType key, String value) {
         contacts.put(key, value);
     }
 
-    public Object getSection(Object sectionType) throws Exception {
-        if (sectionType.getClass().equals(SectionType.class)) {
-            return sections.get(sectionType);
-        } else if (sectionType.getClass().equals(ContactType.class)) {
-            return contacts.get(sectionType);
-        } else {
-            throw new Exception("Incorrect section name.");
-        }
+    public String getContact(ContactType type) {
+        return contacts.get(type);
+    }
+
+    public AbstractSection<?> getSection(SectionType type) {
+        return sections.get(type);
     }
 
     @Override
     public String toString() {
-        return uuid + "\n" + fullName + "\n"
-                + SectionType.CONTACTS.getTitle() + "\n"
-                + ContactType.PHONE.getTitle() + contacts.get(ContactType.PHONE) + "\n"
-                + ContactType.EMAIL.getTitle() + contacts.get(ContactType.EMAIL) + "\n"
-                + ContactType.SKYPE.getTitle() + contacts.get(ContactType.SKYPE) + "\n"
-                + ContactType.LINKEDIN.getTitle() + "\n"
-                + ContactType.GITHUB.getTitle() + "\n"
-                + ContactType.STACKOVERFLOW.getTitle() + "\n"
-                + ContactType.HOME_PAGE.getTitle() + "\n\n"
-                + SectionType.PERSONAL.getTitle() + "\n" + sections.get(SectionType.PERSONAL) + "\n"
-                + SectionType.OBJECTIVE.getTitle() + "\n" + sections.get(SectionType.OBJECTIVE) + "\n"
-                + SectionType.ACHIEVEMENT.getTitle() + "\n" + sections.get(SectionType.ACHIEVEMENT)
-                + SectionType.EXPERIENCE.getTitle() + "\n" + sections.get(SectionType.EXPERIENCE)
-                + SectionType.EDUCATION.getTitle() + "\n" + sections.get(SectionType.EDUCATION);
+        StringBuilder sb = new StringBuilder(uuid + "\n" + fullName + "\n\n" + SectionType.CONTACTS.getTitle() + "\n");
+        for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
+            ContactType ct = entry.getKey();
+            String contact = entry.getValue();
+            sb.append(ct.getTitle()).append(contact).append("\n");
+        }
+        sb.append("\n");
+        for (Map.Entry<SectionType, AbstractSection<?>> entry : sections.entrySet()) {
+            SectionType st = entry.getKey();
+            AbstractSection<?> section = entry.getValue();
+            sb.append(st.getTitle()).append("\n").append(section).append("\n");
+        }
+        return sb.toString();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Resume resume = (Resume) o;
 
-        if (uuid.equals(resume.uuid)) {
-            return false;
-        }
-        if (fullName.equals(resume.fullName)) {
-            return false;
-        }
-        if (contacts.equals(resume.contacts)) {
-            return false;
-        }
-        if (sections.equals(resume.sections)) {
-            return false;
-        }
-        return true;
+        if (!getUuid().equals(resume.getUuid())) return false;
+        if (!getFullName().equals(resume.getFullName())) return false;
+        if (contacts != null ? !contacts.equals(resume.contacts) : resume.contacts != null) return false;
+        return sections != null ? sections.equals(resume.sections) : resume.sections == null;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + uuid.hashCode();
-        result = prime * result + fullName.hashCode();
-        result = prime * result + contacts.hashCode();
-        result = prime * result + sections.hashCode();
+        int result = getUuid().hashCode();
+        result = 31 * result + getFullName().hashCode();
+        result = 31 * result + (contacts != null ? contacts.hashCode() : 0);
+        result = 31 * result + (sections != null ? sections.hashCode() : 0);
         return result;
     }
 

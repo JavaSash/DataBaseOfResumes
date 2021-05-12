@@ -9,16 +9,16 @@ public class Organization {
     private final YearMonth from;
     private final YearMonth to;
 
+    public Organization(String name, String position, YearMonth from, YearMonth to) {
+        this(name, position, "", from, to);
+    }
+
     public Organization(String name, String position, String info, YearMonth from, YearMonth to) {
         this.name = name;
         this.position = position;
         this.info = info;
         this.from = from;
         this.to = to;
-    }
-
-    public Organization(String name, String position, YearMonth from, YearMonth to) {
-        this(name, position, "", from, to);
     }
 
     public void setInfo(String info) {

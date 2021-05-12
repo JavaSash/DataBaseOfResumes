@@ -16,7 +16,7 @@ public class OrganizationSection extends AbstractSection<List<Organization>> {
     public final String toString(){
         StringBuilder sb = new StringBuilder();
         for(Organization org : info) {
-            sb.append(" * ").append(org).append("\n\n");
+            sb.append(" * ").append(org).append("\n");
         }
         return sb.toString();
     }

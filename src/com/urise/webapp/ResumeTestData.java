@@ -3,16 +3,17 @@ package com.urise.webapp;
 import com.urise.webapp.model.*;
 
 import java.time.YearMonth;
+import java.util.List;
 
 public class ResumeTestData {
     public static void main(String[] args) {
         Resume resume1 = new Resume("Григорий Кислин");
-        AbstractSection personal = new TextSection();
-        AbstractSection objective = new TextSection();
-        AbstractSection achievement = new ListSection();
-        AbstractSection qualification = new ListSection();
-        AbstractSection experience = new OrganizationSection();
-        AbstractSection education = new OrganizationSection();
+        AbstractSection<StringBuilder> personal = new TextSection();
+        AbstractSection<StringBuilder> objective = new TextSection();
+        AbstractSection<List<String>> achievement = new ListSection();
+        AbstractSection<List<String>> qualification = new ListSection();
+        AbstractSection<List<Organization>> experience = new OrganizationSection();
+        AbstractSection<List<Organization>> education = new OrganizationSection();
 
         final String personalTxt = "Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.";
         final String objectiveTxt = "Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям";
@@ -70,22 +71,30 @@ public class ResumeTestData {
 
         System.out.println(resume1);
 
-        resume1.setContacts(ContactType.PHONE, "+7(921) 855-0482");
-        resume1.setContacts(ContactType.SKYPE, "grigory.kislin");
-        resume1.setContacts(ContactType.EMAIL, "gkislin@yandex.ru");
-        resume1.setContacts(ContactType.LINKEDIN, "");
-        resume1.setContacts(ContactType.GITHUB, "");
-        resume1.setContacts(ContactType.STACKOVERFLOW, "");
-        resume1.setContacts(ContactType.HOME_PAGE, "");
+        resume1.setContact(ContactType.PHONE, "+7(921) 855-0482");
+        resume1.setContact(ContactType.SKYPE, "grigory.kislin");
+        resume1.setContact(ContactType.EMAIL, "gkislin@yandex.ru");
+        resume1.setContact(ContactType.LINKEDIN, "");
+        resume1.setContact(ContactType.GITHUB, "");
+        resume1.setContact(ContactType.STACKOVERFLOW, "");
+        resume1.setContact(ContactType.HOME_PAGE, "");
 
-
-        resume1.setSections(SectionType.PERSONAL, personal);
-        resume1.setSections(SectionType.OBJECTIVE, objective);
-        resume1.setSections(SectionType.ACHIEVEMENT, achievement);
-        resume1.setSections(SectionType.QUALIFICATIONS, qualification);
-        resume1.setSections(SectionType.EXPERIENCE, experience);
-        resume1.setSections(SectionType.EDUCATION, education);
+        resume1.setSection(SectionType.PERSONAL, personal);
+        resume1.setSection(SectionType.OBJECTIVE, objective);
+        resume1.setSection(SectionType.ACHIEVEMENT, achievement);
+        resume1.setSection(SectionType.QUALIFICATIONS, qualification);
+        resume1.setSection(SectionType.EXPERIENCE, experience);
+        resume1.setSection(SectionType.EDUCATION, education);
 
         System.out.println(resume1);
+
+        System.out.println(resume1.getSection(SectionType.CONTACTS));
+        System.out.println(resume1.getSection(SectionType.PERSONAL));
+        System.out.println(resume1.getSection(SectionType.ACHIEVEMENT));
+        System.out.println(resume1.getSection(SectionType.EDUCATION));
+
+        System.out.println(resume1.getContact(ContactType.PHONE));
+        System.out.println(resume1.getContact(ContactType.SKYPE));
+        System.out.println(resume1.getContact(ContactType.LINKEDIN));
     }
 }
