@@ -4,12 +4,13 @@ import com.urise.webapp.model.*;
 
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Map;
 
 public class ResumeTestData {
     public static void main(String[] args) {
         Resume resume1 = new Resume("Григорий Кислин");
-        AbstractSection<StringBuilder> personal = new TextSection();
-        AbstractSection<StringBuilder> objective = new TextSection();
+        AbstractSection<String> personal = new TextSection();
+        AbstractSection<String> objective = new TextSection();
         AbstractSection<List<String>> achievement = new ListSection();
         AbstractSection<List<String>> qualification = new ListSection();
         AbstractSection<List<Organization>> experience = new OrganizationSection();
@@ -61,7 +62,7 @@ public class ResumeTestData {
         experience.setInfo(new Organization("Siemens AG", "https://new.siemens.com/ru/ru.html", "Разработчик ПО", siemensTxt, YearMonth.of(2005, 1), YearMonth.of(2007, 2)));
         experience.setInfo(new Organization("Alcatel", "http://www.alcatel.ru/", "Инженер по аппаратному и программному тестированию", alcatelTxt, YearMonth.of(1997, 9), YearMonth.of(2005, 1)));
 
-        education.setInfo(new Organization("Coursera", "https://www.coursera.org/course/progfun",  "\"Functional Programming Principles in Scala\" by Martin Odersky", YearMonth.of(2013, 3), YearMonth.of(2013, 5)));
+        education.setInfo(new Organization("Coursera", "https://www.coursera.org/course/progfun", "\"Functional Programming Principles in Scala\" by Martin Odersky", YearMonth.of(2013, 3), YearMonth.of(2013, 5)));
         education.setInfo(new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366", "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML", YearMonth.of(2011, 3), YearMonth.of(2011, 4)));
         education.setInfo(new Organization("Siemens AG", "http://www.siemens.ru/", "3 месяца обучения мобильным IN сетям (Берлин)", YearMonth.of(2005, 1), YearMonth.of(2005, 4)));
         education.setInfo(new Organization("Alcatel", "http://www.alcatel.ru/", "6 месяцев обучения цифровым телефонным сетям (Москва)", YearMonth.of(1997, 9), YearMonth.of(1998, 3)));
@@ -88,13 +89,12 @@ public class ResumeTestData {
 
         System.out.println(resume1);
 
-        System.out.println(resume1.getSection(SectionType.CONTACTS));
-        System.out.println(resume1.getSection(SectionType.PERSONAL));
-        System.out.println(resume1.getSection(SectionType.ACHIEVEMENT));
-        System.out.println(resume1.getSection(SectionType.EDUCATION));
+        for (Map.Entry<ContactType, String> entry : resume1.getContacts().entrySet()) {
+            System.out.println(entry.getKey().getTitle() + entry.getValue());
+        }
 
-        System.out.println(resume1.getContact(ContactType.PHONE));
-        System.out.println(resume1.getContact(ContactType.SKYPE));
-        System.out.println(resume1.getContact(ContactType.LINKEDIN));
+        for(Map.Entry<SectionType, AbstractSection<?>> entry : resume1.getSections().entrySet()) {
+            System.out.println(entry.getKey().getTitle() + "\n" + entry.getValue());
+        }
     }
 }

@@ -1,17 +1,17 @@
 package com.urise.webapp.model;
 
-public class TextSection extends AbstractSection<StringBuilder> {
+public class TextSection extends AbstractSection<String> {
     public TextSection(){
-        super(new StringBuilder());
+        super("");
     }
 
     @Override
     public void setInfo(Object element) {
-        info.append(element + System.getProperty("line.separator"));
+        info = info + element.toString() + "\n";
     }
 
     @Override
     public final String toString(){
-        return info.toString();
+        return info;
     }
 }

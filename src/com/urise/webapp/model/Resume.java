@@ -13,6 +13,7 @@ public class Resume implements Comparable<Resume> {
     private final String uuid;
     private final String fullName;
     private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+
     private Map<SectionType, AbstractSection<?>> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
@@ -36,6 +37,14 @@ public class Resume implements Comparable<Resume> {
 
     public void setSection(SectionType key, AbstractSection<?> value) {
         sections.put(key, value);
+    }
+
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
+    public Map<SectionType, AbstractSection<?>> getSections() {
+        return sections;
     }
 
     public void setContact(ContactType key, String value) {
@@ -71,22 +80,16 @@ public class Resume implements Comparable<Resume> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Resume resume = (Resume) o;
-
-        if (!getUuid().equals(resume.getUuid())) return false;
-        if (!getFullName().equals(resume.getFullName())) return false;
-        if (contacts != null ? !contacts.equals(resume.contacts) : resume.contacts != null) return false;
-        return sections != null ? sections.equals(resume.sections) : resume.sections == null;
+        return getUuid().equals(resume.getUuid()) &&
+                getFullName().equals(resume.getFullName()) &&
+                Objects.equals(contacts, resume.contacts) &&
+                Objects.equals(sections, resume.sections);
     }
 
     @Override
     public int hashCode() {
-        int result = getUuid().hashCode();
-        result = 31 * result + getFullName().hashCode();
-        result = 31 * result + (contacts != null ? contacts.hashCode() : 0);
-        result = 31 * result + (sections != null ? sections.hashCode() : 0);
-        return result;
+        return Objects.hash(getUuid(), getFullName(), contacts, sections);
     }
 
     @Override
