@@ -52,22 +52,22 @@ public class ResumeTestData {
         qualification.setInfo("Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования, архитектурных шаблонов, UML, функционального программирования");
         qualification.setInfo("Родной русский, английский \"upper intermediate\"");
 
-        experience.setInfo(new Organization("JavaOnlineProjects", "Автор проекта", jopTxt, YearMonth.of(2013, 10), YearMonth.now()));
-        experience.setInfo(new Organization("Wrike", "Старший разработчик (backend)", wrikeTxt, YearMonth.of(2014, 10), YearMonth.of(2016, 1)));
-        experience.setInfo(new Organization("RIT Center", "Java архитектор", ritTxt, YearMonth.of(2012, 4), YearMonth.of(2014, 10)));
-        experience.setInfo(new Organization("Luxoft (Deutsche Bank)", "Ведущий программист", luxoftTxt, YearMonth.of(2010, 12), YearMonth.of(2012, 4)));
-        experience.setInfo(new Organization("Yota", "Ведущий специалист", yotaTxt, YearMonth.of(2008, 6), YearMonth.of(2010, 12)));
-        experience.setInfo(new Organization("Enkata", "Разработчик ПО", enkataTxt, YearMonth.of(2007, 3), YearMonth.of(2008, 6)));
-        experience.setInfo(new Organization("Siemens AG", "Разработчик ПО", siemensTxt, YearMonth.of(2005, 1), YearMonth.of(2007, 2)));
-        experience.setInfo(new Organization("Alcatel", "Инженер по аппаратному и программному тестированию", alcatelTxt, YearMonth.of(1997, 9), YearMonth.of(2005, 1)));
+        experience.setInfo(new Organization("JavaOnlineProjects", "https://javaops.ru/", "Автор проекта", jopTxt, YearMonth.of(2013, 10), YearMonth.now()));
+        experience.setInfo(new Organization("Wrike", "https://www.wrike.com/", "Старший разработчик (backend)", wrikeTxt, YearMonth.of(2014, 10), YearMonth.of(2016, 1)));
+        experience.setInfo(new Organization("RIT Center", "", "Java архитектор", ritTxt, YearMonth.of(2012, 4), YearMonth.of(2014, 10)));
+        experience.setInfo(new Organization("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/", "Ведущий программист", luxoftTxt, YearMonth.of(2010, 12), YearMonth.of(2012, 4)));
+        experience.setInfo(new Organization("Yota", "https://www.yota.ru/", "Ведущий специалист", yotaTxt, YearMonth.of(2008, 6), YearMonth.of(2010, 12)));
+        experience.setInfo(new Organization("Enkata", "https://www.pega.com/products/platform/robotic-process-automation", "Разработчик ПО", enkataTxt, YearMonth.of(2007, 3), YearMonth.of(2008, 6)));
+        experience.setInfo(new Organization("Siemens AG", "https://new.siemens.com/ru/ru.html", "Разработчик ПО", siemensTxt, YearMonth.of(2005, 1), YearMonth.of(2007, 2)));
+        experience.setInfo(new Organization("Alcatel", "http://www.alcatel.ru/", "Инженер по аппаратному и программному тестированию", alcatelTxt, YearMonth.of(1997, 9), YearMonth.of(2005, 1)));
 
-        education.setInfo(new Organization("Coursera", "\"Functional Programming Principles in Scala\" by Martin Odersky", YearMonth.of(2013, 3), YearMonth.of(2013, 5)));
-        education.setInfo(new Organization("Luxoft", "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML", YearMonth.of(2011, 3), YearMonth.of(2011, 4)));
-        education.setInfo(new Organization("Siemens AG", "3 месяца обучения мобильным IN сетям (Берлин)", YearMonth.of(2005, 1), YearMonth.of(2005, 4)));
-        education.setInfo(new Organization("Alcatel", "6 месяцев обучения цифровым телефонным сетям (Москва)", YearMonth.of(1997, 9), YearMonth.of(1998, 3)));
-        education.setInfo(new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "Аспирантура (программист C, C++)", YearMonth.of(1993, 9), YearMonth.of(1996, 7)));
-        education.setInfo(new Organization("", "Инжнер (программист Fortran, C)", YearMonth.of(1987, 9), YearMonth.of(1993, 7)));
-        education.setInfo(new Organization("Заочная физико-техническая школа при МФТИ", "Закончил с отличием", YearMonth.of(1984, 9), YearMonth.of(1987, 6)));
+        education.setInfo(new Organization("Coursera", "https://www.coursera.org/course/progfun",  "\"Functional Programming Principles in Scala\" by Martin Odersky", YearMonth.of(2013, 3), YearMonth.of(2013, 5)));
+        education.setInfo(new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366", "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML", YearMonth.of(2011, 3), YearMonth.of(2011, 4)));
+        education.setInfo(new Organization("Siemens AG", "http://www.siemens.ru/", "3 месяца обучения мобильным IN сетям (Берлин)", YearMonth.of(2005, 1), YearMonth.of(2005, 4)));
+        education.setInfo(new Organization("Alcatel", "http://www.alcatel.ru/", "6 месяцев обучения цифровым телефонным сетям (Москва)", YearMonth.of(1997, 9), YearMonth.of(1998, 3)));
+        education.setInfo(new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "http://www.ifmo.ru/", "Аспирантура (программист C, C++)", YearMonth.of(1993, 9), YearMonth.of(1996, 7)));
+        education.setInfo(new Organization("", "", "Инжнер (программист Fortran, C)", YearMonth.of(1987, 9), YearMonth.of(1993, 7)));
+        education.setInfo(new Organization("Заочная физико-техническая школа при МФТИ", "http://www.school.mipt.ru/", "Закончил с отличием", "", YearMonth.of(1984, 9), YearMonth.of(1987, 6)));
 
         System.out.println(resume1);
 
