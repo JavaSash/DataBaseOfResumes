@@ -14,7 +14,7 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     protected abstract SK getSearchKey(String uuid);
 
-    protected abstract void saveToStorage(Resume resume, SK key);
+    protected abstract void saveResume(Resume resume, SK key);
 
     protected abstract Resume getResume(SK key);
 
@@ -30,7 +30,7 @@ public abstract class AbstractStorage<SK> implements Storage {
         LOG.info("Save " + resume);
         String uuid = resume.getUuid();
         SK searchKey = searchNotExistKey(uuid);
-        saveToStorage(resume, searchKey);
+        saveResume(resume, searchKey);
         System.out.println("You have recorded resume with " + uuid + " " + resume.getFullName());
     }
 

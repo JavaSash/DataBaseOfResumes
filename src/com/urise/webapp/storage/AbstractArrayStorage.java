@@ -21,7 +21,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected void saveToStorage(Resume resume, Integer key) {
+    protected void saveResume(Resume resume, Integer key) {
         if (size < STORAGE_LIMIT) {
             saveToArray(resume, key);
             size++;

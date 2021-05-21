@@ -23,7 +23,7 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected void saveToStorage(Resume resume, Integer key) {
+    protected void saveResume(Resume resume, Integer key) {
         storage.add(resume);
     }
 
