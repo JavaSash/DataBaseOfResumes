@@ -35,10 +35,6 @@ public class Resume implements Comparable<Resume> {
         return fullName;
     }
 
-    public void setSection(SectionType key, AbstractSection<?> value) {
-        sections.put(key, value);
-    }
-
     public Map<ContactType, String> getContacts() {
         return contacts;
     }
@@ -49,6 +45,10 @@ public class Resume implements Comparable<Resume> {
 
     public void setContact(ContactType key, String value) {
         contacts.put(key, value);
+    }
+
+    public void setSection(SectionType key, AbstractSection<?> value) {
+        sections.put(key, value);
     }
 
     public String getContact(ContactType type) {

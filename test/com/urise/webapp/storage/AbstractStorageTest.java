@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.urise.webapp.ResumeTestData.createResume;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
@@ -17,19 +18,19 @@ public abstract class AbstractStorageTest {
 
     private static final String NAME_A = "Сапов Игнат";
     private static final String UUID_1 = "uuid1";
-    private static final Resume RESUME1 = new Resume(UUID_1, NAME_A);
+    private static final Resume RESUME1 = createResume(UUID_1, NAME_A);
 
     private static final String NAME_B = "Бурдюков Кирилл";
     private static final String UUID_2 = "uuid2";
-    private static final Resume RESUME2 = new Resume(UUID_2, NAME_B);
+    private static final Resume RESUME2 = createResume(UUID_2, NAME_B);
 
     private static final String NAME_C = "Арцыбашев Демид";
     private static final String UUID_3 = "uuid3";
-    private static final Resume RESUME3 = new Resume(UUID_3, NAME_C);
+    private static final Resume RESUME3 = createResume(UUID_3, NAME_C);
 
     private static final String NAME_D = "Дергач Анатолий";
     private static final String UUID_4 = "uuid4";
-    private static final Resume RESUME4 = new Resume(UUID_4, NAME_D);
+    private static final Resume RESUME4 = createResume(UUID_4, NAME_D);
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -61,7 +62,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test(expected = NotExistStorageException.class)
-    public void getNotExist() throws Exception {
+    public void getNotExist() {
         storage.get(UUID_4);
     }
 

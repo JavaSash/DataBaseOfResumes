@@ -1,11 +1,12 @@
 package com.urise.webapp.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class OrganizationSection extends AbstractSection<List<Organization>> {
-    public OrganizationSection() {
-        super(new ArrayList<>());
+    public OrganizationSection(Organization... organizations) {
+        super(new ArrayList<>(Arrays.asList(organizations)));
     }
 
     @Override

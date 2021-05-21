@@ -1,40 +1,60 @@
 package com.urise.webapp.model;
 
 import java.time.YearMonth;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class Organization {
     private final Link page;
-    private final String position;
-    private String info;
-    private final YearMonth from;
-    private final YearMonth to;
+    private List<Position> positions;
 
-    public Organization(String name, String url, String position, YearMonth from, YearMonth to) {
-        this(name, url, position, "", from, to);
+    public Organization(String name, String url, Position... positions) {
+        this(new Link(name, url), Arrays.asList(positions));
     }
 
-    public Organization(String name, String url, String position, String info, YearMonth from, YearMonth to) {
-        Objects.requireNonNull(from, "From date must not be null");
-        Objects.requireNonNull(to, "To date must not be null");
-        Objects.requireNonNull(position, "Position must not be null");
-        this.page = new Link(name, url);
-        this.position = position;
-        this.info = info;
-        this.from = from;
-        this.to = to;
+    public Organization(Link page, List<Position> positions) {
+        Objects.requireNonNull(positions, "Position must not be null");
+        this.page = page;
+        this.positions = positions;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public Link getPage() {
+        return page;
+    }
+
+    public List<Position> getPositions() {
+        return positions;
     }
 
     @Override
     public String toString() {
         return page + "\n"
-                + from + "-" + "\t"
-                + position + "\n"
-                + to + " \t"
-                + info;
+                + positions + "\n";
+    }
+
+    public static class Position {
+        private final String position;
+        private String info;
+        private final YearMonth from;
+        private final YearMonth to;
+
+        public Position(String position, String info, YearMonth from, YearMonth to) {
+            Objects.requireNonNull(position, "Position must not be null");
+            Objects.requireNonNull(from, "From date must not be null");
+            Objects.requireNonNull(to, "To date must not be null");
+            this.position = position;
+            this.info = info;
+            this.from = from;
+            this.to = to;
+        }
+
+        @Override
+        public String toString() {
+            return from + "-" + "\t"
+                    + position + "\n"
+                    + to + " \t"
+                    + info;
+        }
     }
 }
