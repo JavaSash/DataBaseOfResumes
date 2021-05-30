@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static com.urise.webapp.util.DateUtil.NOW;
+
 public class Organization {
     private final Link page;
     private List<Position> positions;
@@ -33,11 +35,29 @@ public class Organization {
                 + positions + "\n";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Organization that = (Organization) o;
+        return Objects.equals(getPage(), that.getPage()) &&
+                getPositions().equals(that.getPositions());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPage(), getPositions());
+    }
+
     public static class Position {
         private final String position;
         private String info;
         private final YearMonth from;
         private final YearMonth to;
+
+        public Position(String position, String info, YearMonth from) {
+            this(position, info, from, NOW);
+        }
 
         public Position(String position, String info, YearMonth from, YearMonth to) {
             Objects.requireNonNull(position, "Position must not be null");
@@ -49,12 +69,44 @@ public class Organization {
             this.to = to;
         }
 
+        public YearMonth getFrom() {
+            return from;
+        }
+
+        public YearMonth getTo() {
+            return to;
+        }
+
+        public String getPosition() {
+            return position;
+        }
+
+        public String getInfo() {
+            return info;
+        }
+
         @Override
         public String toString() {
             return from + "-" + "\t"
                     + position + "\n"
                     + to + " \t"
                     + info;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Position position1 = (Position) o;
+            return getPosition().equals(position1.getPosition()) &&
+                    Objects.equals(getInfo(), position1.getInfo()) &&
+                    getFrom().equals(position1.getFrom()) &&
+                    getTo().equals(position1.getTo());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getPosition(), getInfo(), getFrom(), getTo());
         }
     }
 }

@@ -8,14 +8,18 @@ import java.util.Objects;
 public class RecursionUtil {
     public static void pathOutput(String path) {
         File root = new File(path);
-        String[] catalog = root.list();
-        for (String s : Objects.requireNonNull(catalog)) {
-            File file = new File(path + File.separator + s);
+        File[] catalog = root.listFiles();
+        for (File file : Objects.requireNonNull(catalog)) {
             if (file.isFile()) {
-                System.out.println(path + File.separator + s);
-            } else {
-                pathOutput(path + File.separator + s);
+                System.out.println("\t" + file.getName());
+            } else if(file.isDirectory()){
+                System.out.println(file.getName());
+                pathOutput(path + File.separator + file.getName());
             }
         }
+    }
+
+    public static void main(String[] args) {
+        com.urise.webapp.util.RecursionUtil.pathOutput("..\\baseJava\\src\\");
     }
 }
