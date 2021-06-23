@@ -42,31 +42,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         updateResume(resume, file);
     }
 
-    protected abstract void writeTo(Resume resume, OutputStream file) throws IOException;
+    protected abstract void writeTo(Resume resume, OutputStream outputStream) throws IOException;
 
-    protected abstract Resume readResume(InputStream file) throws IOException;
-    //Вариант реализации readResume:
-//    protected abstract Resume readResume(File file) throws IOException {
-//        try {
-//            // Coздaem oбъekт FileInputStream для дocтyпa k фaйлy
-//            FileInputStream fin = new FileInputStream(directory.getAbsolutePath());
-//            // Coздaem oбъekт ObjectInputStream для чтeния cepиaлизoвaннoгo oбъekтa
-//            ObjectInputStream ois = new ObjectInputStream(fin);
-//            for (File resumeFile : Objects.requireNonNull(directory.listFiles())) {
-//                if (resumeFile.equals(file)) {
-//                    // Вoccтaнaвливaem cocтoяниe oбъekтa из фaйлa
-//                    return (Resume) ois.readObject();
-//                }
-//            }
-//        } catch (FileNotFoundException e) {
-//            throw new RuntimeException("File Not Found", e);
-//        } catch (IOException e) {
-//            throw new RuntimeException("IOException", e);
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException("Class Not Found", e);
-//        }
-//        return null;
-//    }
+    protected abstract Resume readResume(InputStream inputStream) throws IOException;
 
     @Override
     protected Resume getResume(File file) {
@@ -115,6 +93,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         return list;
     }
 
+    //Размер в байтах
     @Override
     public int size() {
         return (int) directory.length();

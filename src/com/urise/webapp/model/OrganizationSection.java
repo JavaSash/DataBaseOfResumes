@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class OrganizationSection extends AbstractSection<List<Organization>> {
+    private static final long serialVersionUID = 1L;
+
     public OrganizationSection(Organization... organizations) {
         super(new ArrayList<>(Arrays.asList(organizations)));
     }

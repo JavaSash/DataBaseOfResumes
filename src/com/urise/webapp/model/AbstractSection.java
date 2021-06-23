@@ -1,8 +1,9 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class AbstractSection<T> {
+public abstract class AbstractSection<T> implements Serializable {
     protected T info;
 
     AbstractSection(T info) {
