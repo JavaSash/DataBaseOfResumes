@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public abstract class AbstractFileStorage extends AbstractStorage<File> implements Strategy {
     private File directory;
+    private StrategySwitcher switcher;
 
     protected AbstractFileStorage(File directory) throws IllegalAccessException {
         Objects.requireNonNull(directory, "Directory must not be null");
@@ -20,6 +21,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             throw new IllegalAccessException(directory.getAbsolutePath() + " is not readable/writeable");
         }
         this.directory = directory;
+        switcher = new StrategySwitcher(new ObjectStreamStorage(directory));
     }
 
     @Override
@@ -42,14 +44,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         updateResume(resume, file);
     }
 
-    protected abstract void writeTo(Resume resume, OutputStream outputStream) throws IOException;
-
-    protected abstract Resume readResume(InputStream inputStream) throws IOException;
-
     @Override
     protected Resume getResume(File file) {
         try {
-            return readResume(new BufferedInputStream(new FileInputStream(file)));
+            return switcher.getStrategy().readResume(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("File read error", file.getName(), e);
         }
@@ -58,7 +56,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void updateResume(Resume resume, File file) {
         try {
-            writeTo(resume, new BufferedOutputStream(new FileOutputStream(file)));
+            switcher.getStrategy().writeTo(resume, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             throw new StorageException("File write error", resume.getUuid(), e);
         }
