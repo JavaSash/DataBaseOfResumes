@@ -2,18 +2,20 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.strategy.StrategySwitcher;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> implements Strategy {
+public class FileStorage extends AbstractStorage<File> {
     private File directory;
     private StrategySwitcher switcher;
 
-    protected AbstractFileStorage(File directory) throws IllegalAccessException {
+    protected FileStorage(File directory, StrategySwitcher switcher) throws IllegalAccessException {
         Objects.requireNonNull(directory, "Directory must not be null");
+        Objects.requireNonNull(switcher, "StrategySwitcher must not be null");
         if (!directory.isDirectory()) {
             throw new IllegalAccessException(directory.getAbsolutePath() + " is not directory");
         }
@@ -21,7 +23,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> implemen
             throw new IllegalAccessException(directory.getAbsolutePath() + " is not readable/writeable");
         }
         this.directory = directory;
-        switcher = new StrategySwitcher(new ObjectStreamStorage(directory));
+        this.switcher = switcher;
     }
 
     @Override
@@ -47,7 +49,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> implemen
     @Override
     protected Resume getResume(File file) {
         try {
-            return switcher.getStrategy().readResume(new BufferedInputStream(new FileInputStream(file)));
+            return switcher.readResume(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("File read error", file.getName(), e);
         }
@@ -56,7 +58,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> implemen
     @Override
     protected void updateResume(Resume resume, File file) {
         try {
-            switcher.getStrategy().writeTo(resume, new BufferedOutputStream(new FileOutputStream(file)));
+            switcher.writeTo(resume, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             throw new StorageException("File write error", resume.getUuid(), e);
         }

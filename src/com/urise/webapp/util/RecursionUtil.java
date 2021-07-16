@@ -8,6 +8,10 @@ import java.util.Objects;
 public class RecursionUtil {
     private static StringBuilder tab = new StringBuilder("");
 
+    public static void main(String[] args) {
+        com.urise.webapp.util.RecursionUtil.pathOutput("..\\baseJava\\src\\");
+    }
+
     public static void pathOutput(String path) {
         File[] catalog = new File(path).listFiles();
 
@@ -22,9 +26,5 @@ public class RecursionUtil {
                 tab.delete(tab.length() - 1, tab.length());
             }
         }
-    }
-
-    public static void main(String[] args) {
-        com.urise.webapp.util.RecursionUtil.pathOutput("..\\baseJava\\src\\");
     }
 }
